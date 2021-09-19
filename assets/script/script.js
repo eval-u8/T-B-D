@@ -82,8 +82,6 @@ function displaySearchResults() {
     searchResultsEl.style.visibility = "visible";
 }
 
-//displaySearchResults();
-
 //Do not use function unless necessary
 //displayVideo("what");
 submitButtonEl.addEventListener("click", displaySearchResults);
