@@ -1,4 +1,7 @@
 var testDivEl = document.getElementById("player");
+var searchResultsEl = document.getElementById("search-results-container");
+var submitButtonEl = document.getElementById("submit-button");
+var returnButtonEl = document.getElementById("return-button");
 
 function displayVideo(songName) {
 
@@ -20,28 +23,16 @@ function displayVideo(songName) {
     })
     .then(function(response) {
         console.log(response);
-        //src="http://www.youtube.com/embed/M7lc1UVf-VE?enablejsapi=1&origin=http://example.com"
-        
-
-       // var videoLink = "https://www.youtube.com/embed/" + response.items[0].id.videoId;
-
-        //console.log(videoLink);
-
-        /*var videoContainerEl = document.createElement("div");
-        testDivEl.appendChild(videoContainerEl); */
-
-
-        /*var videoEl = document.createElement("iframe");
-        videoEl.setAttribute("src", videoLink);
-        videoEl.setAttribute("width", 560);
-        videoEl.setAttribute("height", 315);
-        videoEl.setAttribute("frameborder", 0);
-        videoEl.setAttribute("allow", "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture");
-        
-        videoContainerEl.appendChild(player);*/
         console.log(response.items[0].id.videoId);
         onYouTubeIframeAPIReady(response.items[0].id.videoId);
 
+
+        //Double check these work -- API rate limited and cannot test
+        var titleEl = document.createElement("div");
+        var descriptionEl = document.createElement("div");
+
+        titleEl.textContent = response.items[0].snippet.title;
+        descriptionEl.textContent = response.items[0].snippet.description;
     })  
     .catch(function(error) {
         console.log(error);
@@ -83,5 +74,18 @@ function stopVideo() {
     player.stopVideo();
 }
 
-displayVideo("what");
+function returnToSearch() {
+    searchResultsEl.style.visibility = "hidden";
+}
+
+function displaySearchResults() {
+    searchResultsEl.style.visibility = "visible";
+}
+
+//displaySearchResults();
+
+//Do not use function unless necessary
+//displayVideo("what");
+submitButtonEl.addEventListener("click", displaySearchResults);
+returnButtonEl.addEventListener("click", returnToSearch);
 
