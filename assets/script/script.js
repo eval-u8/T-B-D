@@ -138,4 +138,5 @@ function getLyrics(songName){
 submitButtonEl.addEventListener("click", displaySearchResults);
 returnButtonEl.addEventListener("click", returnToSearch);
 
-getLyrics("bohemian rhapsody queen");
+//disabled function to save API key from running out
+//getLyrics("bohemian rhapsody queen");
