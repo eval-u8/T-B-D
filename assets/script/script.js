@@ -3,10 +3,7 @@ var searchResultsEl = document.getElementById("search-results-container");
 var submitButtonEl = document.getElementById("submit-button");
 var returnButtonEl = document.getElementById("return-button");
 var lyricsResultEl = document.getElementById("#lyrics-result");
-var artistSearch = document.querySelector("#artist-search").value;
-var songSearch = document.querySelector("#song-search").value;
-var searchTerm = artistSearch + " " + songSearch;
-var youtubeApiKey = "AIzaSyCJWvqCTRTWGZS0kkTzWsyhnD-gB4nmWVE"
+var youtubeApiKey = "AIzaSyCJWvqCTRTWGZS0kkTzWsyhnD-gB4nmWVE";
 
 // // Function to get search term from input
 $("#submit-button").on("click", function() {
@@ -26,21 +23,19 @@ $("#submit-button").on("click", function() {
                 var title = response.items[i].snippet.title;
                 var resultsEl = document.querySelector("#results-container");
                 var resultsButton = document.createElement("button");
+
                 resultsButton.id = title;
+                resultsButton.className = "resultsButton"
                 resultsButton.textContent = title;
                 resultsEl.appendChild(resultsButton);
             } 
         })
     
 })
+//function to click result button to see youtube video and lyrics
+$("#results-container").on("click", "button", function() {
 
-
-
-// Function to display video based on search
-function displayVideo(songName, searchTerm) {
-
-
-    var nameToSearch = "https://youtube.googleapis.com/youtube/v3/search?part=snippet&maxResults=10&q=" + searchTerm + "&key=" + youtubeApiKey;
+})
 
 
 //Function to display video based on search
@@ -169,15 +164,14 @@ function getLyrics(songName){
 
 
 }
-
 //Do not use function unless necessary
 
 // displayVideo();
 
 //displayVideo("what");
 
-submitButtonEl.addEventListener("click", displaySearchResults);
-returnButtonEl.addEventListener("click", returnToSearch);
+// submitButtonEl.addEventListener("click", displaySearchResults);
+// returnButtonEl.addEventListener("click", returnToSearch);
 
 //disabled function to save API key from running out
-//getLyrics("bohemian rhapsody queen");
+//getLyrics("bohemian rhapsody queen")
