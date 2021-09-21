@@ -4,20 +4,29 @@
         <meta charset="UTF-8" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <link rel="stylesheet" href="./assets/style/style.css" />
+        <link
+            rel="stylesheet"
+            href="https://fonts.googleapis.com/css?family=Roboto:300,300italic,700,700italic"
+        />
+        <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.css"
+        />
         <link
             rel="stylesheet"
             href="https://cdnjs.cloudflare.com/ajax/libs/milligram/1.4.1/milligram.css"
         />
+        <link rel="stylesheet" href="./assets/style/style.css" />
         <title>TBD Music</title>
     </head>
     <body>
         <header>
-            <nav>
+            <nav class="row">
                 <div id="logo">
-                    <img src="./assets/images/g-clef-logo.png" alt="TBD Logo" />
+                    <!-- <img src="./assets/images/g-clef-logo.png" alt="TBD Logo" /> -->
+                    TBD
                 </div>
-                <div id="site-name"> TunesBeDope </div>
+                <div id="site-name"><strong> TunesBeDope </strong></div>
                 <div id="home-button"> </div>
             </nav>
         </header>
@@ -25,10 +34,13 @@
         <div id="hero-image"></div>
 
         <div class="container">
-            <div id="search-container" class="row">
+            <div id="search-container">
                 <!--make columns for artist name & input, song name & input, search button-->
-                <div class="column">Test column</div>
-                <button id="submit-button" class="column">Submit</button>
+                <div class="row">
+                    <input type="text" name="artist-search-box" id="artist-search-box" placeholder="Enter artist name here">
+                    <input type="text" name="song-search-box" id="song-search-box" placeholder="Enter song name here">
+                </div>
+                <button id="submit-button" class="button-outline center">Submit</button>
             </div>
 
             <div id="results-container" class="row">
