@@ -41,9 +41,6 @@ function displayVideo(songName, searchTerm) {
 
 
     var nameToSearch = "https://youtube.googleapis.com/youtube/v3/search?part=snippet&maxResults=10&q=" + searchTerm + "&key=" + youtubeApiKey;
-=======
-=======
->>>>>>> 84fad37c8af53993ec057feb9eb6918067997e15
 
 
 //Function to display video based on search
@@ -60,10 +57,6 @@ function displayVideo(songName) {
     console.log(searchTerm);
 
     var nameToSearch = "https://www.googleapis.com/youtube/v3/search?part=snippet&q=" + searchTerm + "apikey=AIzaSyDZ1smQzCupYTg94dIrznPA46HLnyTdtrA";
-<<<<<<< HEAD
->>>>>>> 84fad37c8af53993ec057feb9eb6918067997e15
-=======
->>>>>>> 84fad37c8af53993ec057feb9eb6918067997e15
 
     fetch(nameToSearch)
     .then(function(response) {
@@ -144,14 +137,6 @@ function getLyrics(songName){
     }
 
     var apiKey = "https://api.musixmatch.com/ws/1.1/track.search?q="+ searchTerm + "page_size=3&page=1&s_track_rating=desc&apikey=b821d7d8d4a306e5ec045464dcd5ed20";
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-    console.log(apiKey);
->>>>>>> 84fad37c8af53993ec057feb9eb6918067997e15
-=======
-    console.log(apiKey);
->>>>>>> 84fad37c8af53993ec057feb9eb6918067997e15
 
     fetch(apiKey)
     .then(function(response) {
@@ -186,15 +171,11 @@ function getLyrics(songName){
 }
 
 //Do not use function unless necessary
-<<<<<<< HEAD
-<<<<<<< HEAD
+
 // displayVideo();
-=======
+
 //displayVideo("what");
->>>>>>> 84fad37c8af53993ec057feb9eb6918067997e15
-=======
-//displayVideo("what");
->>>>>>> 84fad37c8af53993ec057feb9eb6918067997e15
+
 submitButtonEl.addEventListener("click", displaySearchResults);
 returnButtonEl.addEventListener("click", returnToSearch);
 
