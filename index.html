@@ -3,19 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"><link rel="stylesheet" href="./assets/style/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/milligram/1.4.1/milligram.css">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
     <title>TBD Music</title>
 </head>
 <body>
     <header>
         <nav>
             <div id="logo">
-                TBD Music logo
             </div>
             <div id="site-name">
-                TBD Music
             </div>
             <div id="home-button">
                 
@@ -28,20 +25,19 @@
     <div class="container">
         <div id="search-container" class="row">
             <!--make columns for artist name & input, song name & input, search button-->
-            <div class="column">Test column</div>
-            <button class="column">Sbumit</button>
-
+            <div class="column"></div>
+            <input id="artist-search"></input>
+            <input id="song-search"></input>
+            <button id="submit-button" class="column">Submit</button>
         </div>
 
         <div id="results-container" class="row">
             <div class="column">
                 <!--search terms and create results divs-->
-                <div>Test search</div>
 
             </div>
             <div class="column">
                 <!--create past searches divs-->
-                <div>Test past search</div>
 
             </div>
 
@@ -49,6 +45,25 @@
         
     </div>
 
+    <div id = "search-results-container" class="container">
+        <div class="row">
+            Enter search here
+            <button id="return-button">Back to Search</button>
+        </div>
+        <div class="row">
+            <div id="player" class="column">
+                test player
+            </div>
+            <div id="lyrics-result" class="column">
+                test
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="./assets/script/script.js"></script>
+    <script src="https://www.youtube.com/iframe_api"></script>
+    <script type="text/javascript" src="http://tracking.musixmatch.com/t1.0/AMa6hJCIEzn1v8RuOP"></script>
     
 </body>
 </html>
