@@ -94,3 +94,7 @@ body {
 #songField {
     outline: #321325 solid;
 }
+
+#search-results-container {
+    visibility: hidden;
+}
