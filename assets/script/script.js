@@ -8,13 +8,13 @@ var lyricsResultEl = document.getElementById("#lyrics-result");
 //Function to display video based on search
 function displayVideo(songName) {
 
-    /*var splitName = songName.split(' ');
+    var splitName = songName.split(' ');
 
     var searchTerm = "";
 
     for(var i = 0; i < splitName.length; i++) {
         searchTerm += splitName[i] + "&";
-    }*/
+    }
 
     console.log(searchTerm);
 
@@ -109,6 +109,8 @@ function getLyrics(songName){
         console.log(response);
         console.log(response.message.body.track_list[0].track.commontrack_id);
 
+
+        //May cause error if no track is listed
         var songId = "https://api.musixmatch.com/ws/1.1/track.lyrics.get?track_id="+ response.message.body.track_list[0].track.track_id + 
                         "&apikey=b821d7d8d4a306e5ec045464dcd5ed20";
         
@@ -139,4 +141,4 @@ submitButtonEl.addEventListener("click", displaySearchResults);
 returnButtonEl.addEventListener("click", returnToSearch);
 
 //disabled function to save API key from running out
-//getLyrics("bohemian rhapsody queen");
+getLyrics("bohemian rhapsody queen");
