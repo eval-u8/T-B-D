@@ -15,12 +15,12 @@ TunesBeDope is a small website that lets users search for their favorite artist/
 
 ## Quirks 🎯
 
-TunesBeDope will remember past searches!
+TunesBeDope will remember past searches! _NEED TO FILL_
 
 ## Preview 👀
 
 [Live page](https://evalecillos.github.io/T-B-D/)
-![Preview](./assets/images/preview.png)
+![Preview](./assets/images/preview.png) _NEED TO FILL_
 
 ## Contributors 🙋🏻‍♂️🙋🏻‍♀️🙋🏼‍♀️🙋🏼‍♂️🙋🏽‍♂️
 
