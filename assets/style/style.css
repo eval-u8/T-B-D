@@ -1,5 +1,24 @@
+:root {
+    --violet-color: #9b4dca;
+}
+
 #search-results-container {
     visibility: hidden;
 }
 
+nav {
+    background-color: black;
+}
 
+nav div {
+    padding: 10px;
+    margin: 1%;
+}
+
+#search-container {
+    margin: 10%;
+}
+
+#site-name {
+    color: var(--violet-color);
+}
