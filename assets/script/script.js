@@ -3,6 +3,7 @@ var searchResultsEl = document.getElementById("search-results-container");
 var submitButtonEl = document.getElementById("submit-button");
 var returnButtonEl = document.getElementById("return-button");
 var lyricsResultEl = document.getElementById("#lyrics-result");
+<<<<<<< HEAD
 var artistSearch = document.querySelector("#artist-search").value;
 var songSearch = document.querySelector("#song-search").value;
 var searchTerm = artistSearch + " " + songSearch;
@@ -41,6 +42,24 @@ function displayVideo(songName, searchTerm) {
 
 
     var nameToSearch = "https://youtube.googleapis.com/youtube/v3/search?part=snippet&maxResults=10&q=" + searchTerm + "&key=" + youtubeApiKey;
+=======
+
+
+//Function to display video based on search
+function displayVideo(songName) {
+
+    /*var splitName = songName.split(' ');
+
+    var searchTerm = "";
+
+    for(var i = 0; i < splitName.length; i++) {
+        searchTerm += splitName[i] + "&";
+    }*/
+
+    console.log(searchTerm);
+
+    var nameToSearch = "https://www.googleapis.com/youtube/v3/search?part=snippet&q=" + searchTerm + "apikey=AIzaSyDZ1smQzCupYTg94dIrznPA46HLnyTdtrA";
+>>>>>>> 84fad37c8af53993ec057feb9eb6918067997e15
 
     fetch(nameToSearch)
     .then(function(response) {
@@ -121,6 +140,10 @@ function getLyrics(songName){
     }
 
     var apiKey = "https://api.musixmatch.com/ws/1.1/track.search?q="+ searchTerm + "page_size=3&page=1&s_track_rating=desc&apikey=b821d7d8d4a306e5ec045464dcd5ed20";
+<<<<<<< HEAD
+=======
+    console.log(apiKey);
+>>>>>>> 84fad37c8af53993ec057feb9eb6918067997e15
 
     fetch(apiKey)
     .then(function(response) {
@@ -155,7 +178,11 @@ function getLyrics(songName){
 }
 
 //Do not use function unless necessary
+<<<<<<< HEAD
 // displayVideo();
+=======
+//displayVideo("what");
+>>>>>>> 84fad37c8af53993ec057feb9eb6918067997e15
 submitButtonEl.addEventListener("click", displaySearchResults);
 returnButtonEl.addEventListener("click", returnToSearch);
 
