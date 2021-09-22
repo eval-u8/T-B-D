@@ -18,7 +18,7 @@ function displayVideo(songName) {
 
     console.log(searchTerm);
 
-    var nameToSearch = "https://www.googleapis.com/youtube/v3/search?part=snippet&q=" + searchTerm  +"apikey=AIzaSyAFIRLZjGh2GANgLg96xjQYCzNQO-OZ1RU";
+    var nameToSearch = "https://www.googleapis.com/youtube/v3/search?part=snippet&q=" + searchTerm  + "apikey=AIzaSyAFIRLZjGh2GANgLg96xjQYCzNQO-OZ1RU";
 
     fetch(nameToSearch)
     .then(function(response) {
