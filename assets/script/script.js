@@ -14,32 +14,37 @@ $("#submit-button").on("click", function() {
     var artistSearch = document.querySelector("#artistField").value;
     var songSearch = document.querySelector("#songField").value;
     var searchTerm = artistSearch + " " + songSearch;
+    clearSearchValues();
     var youtubeList = "https://youtube.googleapis.com/youtube/v3/search?part=snippet&maxResults=1&type=video&q=" + searchTerm + "&key=" + youtubeApiKey;
     
     pastSearches(searchTerm);
 
     fetch(youtubeList)
-        .then(function(response) {
-            return response.json();
-        })
+    .then(function(response) {
+        return response.json();
+    })
 
-        .then(function(response) {
-                    
-            for (i=0; i < response.items.length; i++) {
-                var title = response.items[i].snippet.title;
-                var videoId = response.items[i].id.videoId;
-                var resultsEl = document.querySelector("#results-container");
-                var resultsButton = document.createElement("button");
+    .then(function(response) {
+                
+        for (i=0; i < response.items.length; i++) {
+            var title = response.items[i].snippet.title;
+            var videoId = response.items[i].id.videoId;
+            var resultsEl = document.querySelector("#results-container");
+            var resultsButton = document.createElement("button");
 
-                resultsButton.id = title;
-                resultsButton.className = "resultsButton"
-                // add css class
-                // resultsButton.classList.add("");
-                resultsButton.textContent = title;
-                resultsButton.id = videoId;
-                resultsEl.appendChild(resultsButton);
-            }
-        })
+            resultsButton.id = title;
+            resultsButton.className = "resultsButton"
+            // add css class
+            // resultsButton.classList.add("");
+            resultsButton.textContent = title;
+            resultsButton.id = videoId;
+            resultsEl.appendChild(resultsButton);
+        }
+    })
+    .catch(function(error) {
+        console.log(error);
+    })
+
     
     
 })
@@ -48,9 +53,13 @@ $("#submit-button").on("click", function() {
 function pastSearches (searchTerm){
     var pastSearchEl = document.querySelector("#past-searches-container")
 
-    pastSearchEl.innerHTML = ""
-    pastSearchList.push(searchTerm)
-    localStorage.setItem("searchTerm", JSON.stringify(pastSearchList));
+    //pastSearchEl.innerHTML = "";
+
+    var pastSearchesArray = JSON.parse(localStorage.getItem("searchTerm"));
+
+    pastSearchesArray.push(searchTerm);
+
+    localStorage.setItem("searchTerm", JSON.stringify(pastSearchesArray));
 
     
     for (var j=0; j < pastSearchList.length; j++) {
@@ -60,7 +69,7 @@ function pastSearches (searchTerm){
         pastSearchLi.innerHTML = pastSearchList[j];
         pastSearchEl.appendChild(pastSearchLi);
 
-    };
+    }
 
 }
 
@@ -70,7 +79,7 @@ $("#past-searches-container").on("click", "button", function() {
     console.log(pastSearch);
     document.querySelector("#artistField").value = pastSearch;
     document.querySelector("#submit-button").click();
-  });
+});
 
 //function to click result button to see youtube video and lyrics
 $("#results-container").on("click", "button", function() {
@@ -82,7 +91,6 @@ $("#results-container").on("click", "button", function() {
 
     localStorage.setItem("songId", videoId);
     onYouTubeIframeAPIReady();
-
 })
 
 
@@ -179,16 +187,32 @@ function getLyrics(){
 
 
 }
+
+function clearSearchValues() {
+    $("#artistField").value = "";
+    $("#songField").value = "";
+}
+
+function loadLocalStorage(){
+    var pastSearchEl = document.querySelector("#past-searches-container")
+
+    var storedSearches = JSON.parse(localStorage.getItem("searchTerm"));
+    console.log(storedSearches);
+    
+    for (var j=0; j < storedSearches.length; j++) {
+        var pastSearchLi = document.createElement("button");
+        pastSearchLi.classList.add("past-button");
+        pastSearchLi.setAttribute("id", storedSearches[j])
+        pastSearchLi.innerHTML = storedSearches[j];
+        pastSearchEl.appendChild(pastSearchLi);
+    }
+}
 //Do not use function unless necessary
-
-// displayVideo();
-
-//displayVideo("what");
 
 submitButtonEl.addEventListener("click", displaySearchResults);
 returnButtonEl.addEventListener("click", returnToSearch);
 
 //disabled function to save API key from running out
 submitButtonEl.addEventListener("click", getLyrics);
-//getLyrics("bohemian rhapsody queen")
-//onYouTubeIframeAPIReady(songId)
+
+loadLocalStorage();

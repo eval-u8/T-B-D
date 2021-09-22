@@ -59,6 +59,15 @@ body {
     margin-top: 40px;
 }
 
+#past-searches-container {
+    display: flex;
+    flex-direction: column;
+}
+
+.past-button {
+    width: fit-content;
+}
+
 #results-container {
     display: flex;
     flex-direction: column;
