@@ -13,12 +13,12 @@ function displayVideo(songName) {
     var searchTerm = "";
 
     for(var i = 0; i < splitName.length; i++) {
-        searchTerm += splitName[i] + "&";
+        searchTerm += splitName[i] + "%20";
     }
 
     console.log(searchTerm);
 
-    var nameToSearch = "https://www.googleapis.com/youtube/v3/search?part=snippet&q=" + searchTerm + "apikey=AIzaSyDZ1smQzCupYTg94dIrznPA46HLnyTdtrA";
+    var nameToSearch = "https://www.googleapis.com/youtube/v3/search?part=snippet&q=" + searchTerm  +"apikey=AIzaSyAFIRLZjGh2GANgLg96xjQYCzNQO-OZ1RU";
 
     fetch(nameToSearch)
     .then(function(response) {
@@ -136,9 +136,9 @@ function getLyrics(songName){
 }
 
 //Do not use function unless necessary
-//displayVideo("what");
+displayVideo("bohemian rhapsody");
 submitButtonEl.addEventListener("click", displaySearchResults);
 returnButtonEl.addEventListener("click", returnToSearch);
 
 //disabled function to save API key from running out
-getLyrics("bohemian rhapsody queen");
+//getLyrics("bohemian rhapsody queen");
