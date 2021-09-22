@@ -17,6 +17,7 @@ $("#submit-button").on("click", function() {
     console.log(searchTerm);
     var youtubeList = "https://youtube.googleapis.com/youtube/v3/search?part=snippet&maxResults=1&type=video&q=" + searchTerm  + "&key=" + youtubeApiKey;
     
+    pastSearches(searchTerm.trim());
 
     fetch(youtubeList)
     .then(function(response) {
@@ -44,7 +45,7 @@ $("#submit-button").on("click", function() {
         console.log(error);
     })
 
-    pastSearches(searchTerm.trim());
+    
     
 })
 
@@ -56,7 +57,6 @@ function pastSearches(searchTerm){
     //pastSearchEl.innerHTML = "";
 
     var pastSearchesArray = JSON.parse(localStorage.getItem("searchTerm")) || [];
-    console.log("should be true", pastSearchesArray.includes("queen "));
 
     if(!(pastSearchesArray.includes(searchTerm))) {
         console.log("before", pastSearchesArray);
@@ -64,27 +64,28 @@ function pastSearches(searchTerm){
         console.log("after", pastSearchesArray);
     }
 
-    for(var i = 0; i < pastSearchesArray.length; i++) { 
+    /*for(var i = 0; i < pastSearchesArray.length; i++) { 
         console.log(pastSearchesArray[i]);
         pastSearchesArray[i].trim();
         console.log(pastSearchesArray[i]);
-    }
+    }*/
 
     localStorage.setItem("searchTerm", JSON.stringify(pastSearchesArray));
 
+    var buttonArray = JSON.parse(localStorage.getItem("searchTerm")) || [];
     
-    for (var j=0; j < pastSearchList.length; j++) {
+    for (var j=0; j < buttonArray.length; j++) {
         var pastSearchLi = document.createElement("button");
         pastSearchLi.classList.add("past-button");
-        pastSearchLi.setAttribute("id", pastSearchList[j])
-        pastSearchLi.innerHTML = pastSearchList[j];
-        pastSearchEl.appendChild(pastSearchLi);
-
+        pastSearchLi.setAttribute("id", buttonArray[j])
+        pastSearchLi.innerHTML = buttonArray[j];
+        pastSearchEl.appendChild(buttonArray);
     }
 
-    if(pastSearchesArray.length === 1) { 
+    if(pastSearchesArray.length === 1) {
         loadLocalStorage();
     }
+
 }
 
 //function to click on past search and display results
@@ -92,7 +93,6 @@ $("#past-searches-container").on("click", "button", function() {
     var pastSearch = $(this).attr("id");
     console.log(pastSearch);
     document.querySelector("#artistField").value = pastSearch;
-    clearSearchValues();
     document.querySelector("#submit-button").click();
 });
 
