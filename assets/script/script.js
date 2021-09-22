@@ -78,9 +78,9 @@ $("#results-container").on("click", "button", function() {
     var titleEl = document.createElement("div");
     var descriptionEl = document.createElement("div");
 
-    console.log(songId);
+    console.log(videoId);
 
-    localStorage.setItem("songId", songId);
+    localStorage.setItem("songId", videoId);
     onYouTubeIframeAPIReady();
 
 })
