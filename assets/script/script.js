@@ -4,7 +4,7 @@ var submitButtonEl = document.getElementById("submit-button");
 var returnButtonEl = document.getElementById("return-button");
 var lyricsResultEl = document.getElementById("#lyrics-result");
 var pastSearchList = JSON.parse(localStorage.getItem("songIdList")) || [];
-var youtubeApiKey = "AIzaSyCHWOWqNeHT92tJwuaXn-kmSt3EGp9ePic";
+var youtubeApiKey = "AIzaSyAW8RErsioqo5FSeO_2KsSKsl4BWNwNef4";
 
 // Function to get search term from input
 $("#submit-button").on("click", function() {
@@ -41,10 +41,12 @@ $("#submit-button").on("click", function() {
 })
 //function to click result button to see youtube video and lyrics
 $("#results-container").on("click", "button", function() {
-    var songId = $(this).attr("id");
+    var videoId = $(this).attr("id");
     var titleEl = document.createElement("div");
     var descriptionEl = document.createElement("div");
 
+    localStorage.setItem("songId", videoId);
+    onYouTubeIframeAPIReady();
 })
 
 
@@ -59,7 +61,9 @@ $("#results-container").on("click", "button", function() {
 
 
 //Additional functions for the YoutubeAPI to work as intended
-function onYouTubeIframeAPIReady(songId) {
+function onYouTubeIframeAPIReady() {
+
+    var songId = localStorage.getItem("songId");
     
     if(songId !== undefined) {
         var player;
@@ -158,3 +162,4 @@ function getLyrics(songName){
 
 //disabled function to save API key from running out
 //getLyrics("bohemian rhapsody queen")
+//onYouTubeIframeAPIReady(songId)

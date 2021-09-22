@@ -2,6 +2,7 @@
     <img src="https://img.shields.io/badge/HTML5-orange" />    
     <img src="https://img.shields.io/badge/Javascript-yellow" />
     <img src="https://img.shields.io/badge/CSS-blue"  />
+    <img src="https://img.shields.io/badge/-Bulma-brightgreen"/>
     <img src="https://img.shields.io/badge/Milligram%20API-purple" >
     <img src="https://img.shields.io/badge/YouTube%20API-red" />
     <img src="https://img.shields.io/badge/Musixmatch%20Lyrics%20API-violet" />
