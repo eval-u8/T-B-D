@@ -3,6 +3,7 @@ var searchResultsEl = document.getElementById("search-results-container");
 var submitButtonEl = document.getElementById("submit-button");
 var returnButtonEl = document.getElementById("return-button");
 var lyricsResultEl = document.getElementById("#lyrics-result");
+var pastSearchList = JSON.parse(localStorage.getItem("songIdList")) || [];
 var youtubeApiKey = "AIzaSyCJWvqCTRTWGZS0kkTzWsyhnD-gB4nmWVE";
 
 // Function to get search term from input
@@ -13,38 +14,38 @@ $("#submit-button").on("click", function() {
     var youtubeList = "https://youtube.googleapis.com/youtube/v3/search?part=snippet&maxResults=10&type=video&q=" + searchTerm + "&key=" + youtubeApiKey;
 
     fetch(youtubeList)
-        .then(function(response) {
-            return response.json();
-        })
+    .then(function(response) {
+        return response.json();
+    })
+    .then(function(response) {
+                
+        for (i=0; i < response.items.length; i++) {
+            var title = response.items[i].snippet.title;
+            var videoId = response.items[i].id.videoId;
+            var resultsEl = document.querySelector("#results-container");
+            var resultsButton = document.createElement("button");
 
-        .then(function(response) {
-                    
-            for (i=0; i < response.items.length; i++) {
-                var title = response.items[i].snippet.title;
-                var videoId = response.items[i].id.videoId;
-                var resultsEl = document.querySelector("#results-container");
-                var resultsButton = document.createElement("button");
-
-                resultsButton.id = title;
-                resultsButton.className = "resultsButton"
-                // add css class
-                // resultsButton.classList.add("");
-                resultsButton.textContent = title;
-                resultsButton.id = videoId;
-                resultsEl.appendChild(resultsButton);
-            } 
-        var titleEl = document.createElement("div");
-        var descriptionEl = document.createElement("div");
-
-        titleEl.textContent = response.items[0].snippet.title;
-        descriptionEl.textContent = response.items[0].snippet.description;
-        onYouTubeIframeAPIReady(response.items[0].id.videoId);
-        })
-    
+            resultsButton.id = title;
+            resultsButton.className = "resultsButton"
+            // add css class
+            // resultsButton.classList.add("");
+            resultsButton.textContent = title;
+            resultsButton.id = videoId;
+            resultsEl.appendChild(resultsButton);
+        } 
+    })
     
 })
 //function to click result button to see youtube video and lyrics
 $("#results-container").on("click", "button", function() {
+    var songId = $(this).attr("id");
+    var titleEl = document.createElement("div");
+    var descriptionEl = document.createElement("div");
+
+    console.log(songId);
+
+    localStorage.setItem("songId", songId);
+    onYouTubeIframeAPIReady();
 
 })
 
@@ -60,7 +61,9 @@ $("#results-container").on("click", "button", function() {
 
 
 //Additional functions for the YoutubeAPI to work as intended
-function onYouTubeIframeAPIReady(songId) {
+function onYouTubeIframeAPIReady() {
+    var songId = localStorage.getItem("songId");
+
     if(songId !== undefined) {
         var player;
         player = new YT.Player('player', {
@@ -158,3 +161,4 @@ function getLyrics(songName){
 
 //disabled function to save API key from running out
 //getLyrics("bohemian rhapsody queen")
+//onYouTubeIframeAPIReady(songId)
