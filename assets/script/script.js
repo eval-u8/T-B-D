@@ -20,27 +20,31 @@ $("#submit-button").on("click", function() {
     pastSearches(searchTerm);
 
     fetch(youtubeList)
-        .then(function(response) {
-            return response.json();
-        })
+    .then(function(response) {
+        return response.json();
+    })
 
-        .then(function(response) {
-                    
-            for (i=0; i < response.items.length; i++) {
-                var title = response.items[i].snippet.title;
-                var videoId = response.items[i].id.videoId;
-                var resultsEl = document.querySelector("#results-container");
-                var resultsButton = document.createElement("button");
+    .then(function(response) {
+                
+        for (i=0; i < response.items.length; i++) {
+            var title = response.items[i].snippet.title;
+            var videoId = response.items[i].id.videoId;
+            var resultsEl = document.querySelector("#results-container");
+            var resultsButton = document.createElement("button");
 
-                resultsButton.id = title;
-                resultsButton.className = "resultsButton"
-                // add css class
-                // resultsButton.classList.add("");
-                resultsButton.textContent = title;
-                resultsButton.id = videoId;
-                resultsEl.appendChild(resultsButton);
-            }
-        })
+            resultsButton.id = title;
+            resultsButton.className = "resultsButton"
+            // add css class
+            // resultsButton.classList.add("");
+            resultsButton.textContent = title;
+            resultsButton.id = videoId;
+            resultsEl.appendChild(resultsButton);
+        }
+    })
+    .catch(function(error) {
+        console.log(error);
+    })
+
     
     
 })
@@ -49,8 +53,8 @@ $("#submit-button").on("click", function() {
 function pastSearches (searchTerm){
     var pastSearchEl = document.querySelector("#past-searches-container")
 
-    pastSearchEl.innerHTML = ""
-    pastSearchList.push(searchTerm)
+    pastSearchEl.innerHTML = "";
+    pastSearchList.push(searchTerm);
     localStorage.setItem("searchTerm", JSON.stringify(pastSearchList));
 
     
@@ -61,7 +65,7 @@ function pastSearches (searchTerm){
         pastSearchLi.innerHTML = pastSearchList[j];
         pastSearchEl.appendChild(pastSearchLi);
 
-    };
+    }
 
 }
 
@@ -83,7 +87,6 @@ $("#results-container").on("click", "button", function() {
 
     localStorage.setItem("songId", videoId);
     onYouTubeIframeAPIReady();
-
 })
 
 
@@ -185,16 +188,28 @@ function clearSearchValues() {
     $("#artistField").value = "";
     $("#songField").value = "";
 }
+
+function loadLocalStorage(){
+    var pastSearchEl = document.querySelector("#past-searches-container")
+
+    var storedSearches = JSON.parse(localStorage.getItem("searchTerm"));
+    console.log(storedSearches);
+    
+    for (var j=0; j < storedSearches.length; j++) {
+        console.log("we are here");
+        var pastSearchLi = document.createElement("button");
+        pastSearchLi.classList.add("past-button");
+        pastSearchLi.setAttribute("id", storedSearches[j])
+        pastSearchLi.innerHTML = storedSearches[j];
+        pastSearchEl.appendChild(pastSearchLi);
+    }
+}
 //Do not use function unless necessary
-
-// displayVideo();
-
-//displayVideo("what");
 
 submitButtonEl.addEventListener("click", displaySearchResults);
 returnButtonEl.addEventListener("click", returnToSearch);
 
 //disabled function to save API key from running out
 submitButtonEl.addEventListener("click", getLyrics);
-//getLyrics("bohemian rhapsody queen")
-//onYouTubeIframeAPIReady(songId)
+
+loadLocalStorage();
