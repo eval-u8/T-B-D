@@ -4,12 +4,13 @@ var submitButtonEl = document.getElementById("submit-button");
 var returnButtonEl = document.getElementById("return-button");
 var lyricsResultEl = document.getElementById("#lyrics-result");
 var pastSearchList = JSON.parse(localStorage.getItem("songIdList")) || [];
-var youtubeApiKey = "AIzaSyCJWvqCTRTWGZS0kkTzWsyhnD-gB4nmWVE";
+var youtubeApiKey = "AIzaSyCHWOWqNeHT92tJwuaXn-kmSt3EGp9ePic";
 
 // Function to get search term from input
 $("#submit-button").on("click", function() {
-    var artistSearch = document.querySelector("#artist-search").value;
-    var songSearch = document.querySelector("#song-search").value;
+    var artistSearch = document.querySelector("#artistField").value;
+    console.log(artistSearch)
+    var songSearch = document.querySelector("#songField").value;
     var searchTerm = artistSearch + " " + songSearch;
     var youtubeList = "https://youtube.googleapis.com/youtube/v3/search?part=snippet&maxResults=10&type=video&q=" + searchTerm + "&key=" + youtubeApiKey;
 
@@ -157,4 +158,3 @@ function getLyrics(songName){
 
 //disabled function to save API key from running out
 //getLyrics("bohemian rhapsody queen")
-onYouTubeIframeAPIReady(songId)
