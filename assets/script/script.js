@@ -8,8 +8,8 @@ var youtubeApiKey = "AIzaSyAW8RErsioqo5FSeO_2KsSKsl4BWNwNef4";
 
 // Function to get search term from input
 $("#submit-button").on("click", function() {
-    var artistSearch = document.querySelector("#artist-search").value;
-    var songSearch = document.querySelector("#song-search").value;
+    var artistSearch = document.querySelector("#artistField").value;
+    var songSearch = document.querySelector("#songField").value;
     var searchTerm = artistSearch + " " + songSearch;
     var youtubeList = "https://youtube.googleapis.com/youtube/v3/search?part=snippet&maxResults=10&type=video&q=" + searchTerm + "&key=" + youtubeApiKey;
 
@@ -38,6 +38,7 @@ $("#submit-button").on("click", function() {
     
     
 })
+
 //function to click result button to see youtube video and lyrics
 $("#results-container").on("click", "button", function() {
     var videoId = $(this).attr("id");
@@ -45,7 +46,7 @@ $("#results-container").on("click", "button", function() {
     var descriptionEl = document.createElement("div");
 
     localStorage.setItem("songId", videoId);
-    onYouTubeIframeAPIReady();
+    //onYouTubeIframeAPIReady();
 })
 
 
@@ -107,17 +108,12 @@ function displaySearchResults() {
     searchResultsEl.style.visibility = "visible";
 }
 
-function getLyrics(songName){
+function getLyrics(){
+    var artistValue = document.querySelector("#artistField").value;
+    var songValue = document.querySelector("#songField").value;
 
-    var splitName = songName.split(' ');
 
-    var searchTerm = "";
-
-    for(var i = 0; i < splitName.length; i++) {
-        searchTerm += splitName[i] + "&";
-    }
-
-    var apiKey = "https://api.musixmatch.com/ws/1.1/track.search?q="+ searchTerm + "page_size=3&page=1&s_track_rating=desc&apikey=b821d7d8d4a306e5ec045464dcd5ed20";
+    var apiKey = "https://api.musixmatch.com/ws/1.1/track.search?q_artist="+ artistValue + "&q_track=" + songValue + "&page_size=3&page=1&s_track_rating=desc&apikey=b821d7d8d4a306e5ec045464dcd5ed20";
 
     fetch(apiKey)
     .then(function(response) {
@@ -138,10 +134,18 @@ function getLyrics(songName){
     .then(function(songIdResponse) {
         console.log(songIdResponse);
 
+        var copyRightAllowed = songIdResponse.message.body.lyrics.lyrics_copyright;
         var lyrics = songIdResponse.message.body.lyrics.lyrics_body;
-        console.log(lyrics);
 
-        //Get lyrics above to post to page. Getting error message right now.
+        //If copyright law allows any of the lyrics to be reprinted, there are printed here
+        //Songs with copyright issues do not print any lyrics but an error message instead
+        if(copyRightAllowed == "Unfortunately we're not authorized to show these lyrics.") {
+            //Print error message here
+            console.log("Copyright law does not allow these lyrics to be printed");
+        } else {
+            //Print lyrics to page here
+            console.log(lyrics);
+        }
 
     })
     .catch(function(error) {
@@ -156,9 +160,10 @@ function getLyrics(songName){
 
 //displayVideo("what");
 
-// submitButtonEl.addEventListener("click", displaySearchResults);
+submitButtonEl.addEventListener("click", displaySearchResults);
 // returnButtonEl.addEventListener("click", returnToSearch);
 
 //disabled function to save API key from running out
+submitButtonEl.addEventListener("click", getLyrics);
 //getLyrics("bohemian rhapsody queen")
 //onYouTubeIframeAPIReady(songId)
