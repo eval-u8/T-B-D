@@ -3,16 +3,20 @@ var searchResultsEl = document.getElementById("search-results-container");
 var submitButtonEl = document.getElementById("submit-button");
 var returnButtonEl = document.getElementById("return-button");
 var lyricsResultEl = document.getElementById("#lyrics-result");
-var pastSearchList = JSON.parse(localStorage.getItem("songIdList")) || [];
+var pastSearchIdList = JSON.parse(localStorage.getItem("songIdList")) || [];
+var pastSearchList = JSON.parse(localStorage.getItem("searchTerms")) || [];
+
+
 var youtubeApiKey = "AIzaSyAW8RErsioqo5FSeO_2KsSKsl4BWNwNef4";
 
 // Function to get search term from input
 $("#submit-button").on("click", function() {
     var artistSearch = document.querySelector("#artistField").value;
-    console.log(artistSearch)
     var songSearch = document.querySelector("#songField").value;
     var searchTerm = artistSearch + " " + songSearch;
-    var youtubeList = "https://youtube.googleapis.com/youtube/v3/search?part=snippet&maxResults=10&type=video&q=" + searchTerm + "&key=" + youtubeApiKey;
+    var youtubeList = "https://youtube.googleapis.com/youtube/v3/search?part=snippet&maxResults=1&type=video&q=" + searchTerm + "&key=" + youtubeApiKey;
+    
+    pastSearches (searchTerm);
 
     fetch(youtubeList)
         .then(function(response) {
@@ -34,11 +38,32 @@ $("#submit-button").on("click", function() {
                 resultsButton.textContent = title;
                 resultsButton.id = videoId;
                 resultsEl.appendChild(resultsButton);
-            } 
+            }
         })
     
     
 })
+//function to save search term to local storage
+// $("#submit-button").on("click", function() 
+function pastSearches (searchTerm){
+    var pastSearchEl = document.querySelector("#past-searches-container")
+
+    pastSearchEl.innerHTML = ""
+    pastSearchList.push(searchTerm)
+    localStorage.setItem("searchTerm", JSON.stringify(pastSearchList));
+
+    
+    for (var j=0; j < pastSearchList.length; j++) {
+        var pastSearchLi = document.createElement("button");
+        pastSearchLi.classList.add("past-button");
+        pastSearchLi.setAttribute("id", pastSearchList[j])
+        pastSearchLi.innerHTML = pastSearchList[j];
+        pastSearchEl.appendChild(pastSearchLi);
+
+    };
+
+}
+
 //function to click result button to see youtube video and lyrics
 $("#results-container").on("click", "button", function() {
     var videoId = $(this).attr("id");
@@ -48,16 +73,6 @@ $("#results-container").on("click", "button", function() {
     localStorage.setItem("songId", videoId);
     onYouTubeIframeAPIReady();
 })
-
-
-//Function to display video based on search
-// function displayVideo(response) {
-//         var titleEl = document.createElement("div");
-//         var descriptionEl = document.createElement("div");
-
-//         titleEl.textContent = response.items[0].snippet.title;
-//         descriptionEl.textContent = response.items[0].snippet.description;
-//     }
 
 
 //Additional functions for the YoutubeAPI to work as intended
