@@ -136,7 +136,7 @@ function getLyrics(songName){
 }
 
 //Do not use function unless necessary
-displayVideo("bohemian rhapsody");
+//displayVideo("bohemian rhapsody");
 submitButtonEl.addEventListener("click", displaySearchResults);
 returnButtonEl.addEventListener("click", returnToSearch);
 
