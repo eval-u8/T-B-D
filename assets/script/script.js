@@ -14,6 +14,7 @@ $("#submit-button").on("click", function() {
     var artistSearch = document.querySelector("#artistField").value;
     var songSearch = document.querySelector("#songField").value;
     var searchTerm = artistSearch + " " + songSearch;
+    clearSearchValues();
     var youtubeList = "https://youtube.googleapis.com/youtube/v3/search?part=snippet&maxResults=1&type=video&q=" + searchTerm + "&key=" + youtubeApiKey;
     
     pastSearches(searchTerm);
@@ -178,6 +179,11 @@ function getLyrics(){
     })
 
 
+}
+
+function clearSearchValues() {
+    $("#artistField").value = "";
+    $("#songField").value = "";
 }
 //Do not use function unless necessary
 
