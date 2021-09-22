@@ -4,7 +4,7 @@ var submitButtonEl = document.getElementById("submit-button");
 var returnButtonEl = document.getElementById("return-button");
 var lyricsResultEl = document.getElementById("#lyrics-result");
 var pastSearchList = JSON.parse(localStorage.getItem("songIdList")) || [];
-var youtubeApiKey = "AIzaSyCJWvqCTRTWGZS0kkTzWsyhnD-gB4nmWVE";
+var youtubeApiKey = "AIzaSyAW8RErsioqo5FSeO_2KsSKsl4BWNwNef4";
 
 // Function to get search term from input
 $("#submit-button").on("click", function() {
@@ -161,4 +161,4 @@ function getLyrics(songName){
 
 //disabled function to save API key from running out
 //getLyrics("bohemian rhapsody queen")
-onYouTubeIframeAPIReady(songId)
+//onYouTubeIframeAPIReady(songId)
