@@ -44,7 +44,6 @@ $("#submit-button").on("click", function() {
     
 })
 //function to save search term to local storage
-// $("#submit-button").on("click", function() 
 function pastSearches (searchTerm){
     var pastSearchEl = document.querySelector("#past-searches-container")
 
@@ -64,6 +63,15 @@ function pastSearches (searchTerm){
 
 }
 
+//function to click on past search and display results
+$("#past-searches-container").on("click", "button", function() {
+    var pastSearch = $(this).attr("id");
+    console.log(pastSearch);
+    document.querySelector("#artistField").value = pastSearch;
+    document.querySelector("#submit-button").click();
+  });
+
+
 //function to click result button to see youtube video and lyrics
 $("#results-container").on("click", "button", function() {
     var videoId = $(this).attr("id");
@@ -73,6 +81,7 @@ $("#results-container").on("click", "button", function() {
     localStorage.setItem("songId", videoId);
     onYouTubeIframeAPIReady();
 })
+
 
 
 //Additional functions for the YoutubeAPI to work as intended
