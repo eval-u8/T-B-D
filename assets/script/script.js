@@ -40,10 +40,12 @@ $("#submit-button").on("click", function() {
 })
 //function to click result button to see youtube video and lyrics
 $("#results-container").on("click", "button", function() {
-    var songId = $(this).attr("id");
+    var videoId = $(this).attr("id");
     var titleEl = document.createElement("div");
     var descriptionEl = document.createElement("div");
 
+    localStorage.setItem("songId", videoId);
+    onYouTubeIframeAPIReady();
 })
 
 
@@ -58,7 +60,9 @@ $("#results-container").on("click", "button", function() {
 
 
 //Additional functions for the YoutubeAPI to work as intended
-function onYouTubeIframeAPIReady(songId) {
+function onYouTubeIframeAPIReady() {
+
+    var songId = localStorage.getItem("songId");
     
     if(songId !== undefined) {
         var player;
