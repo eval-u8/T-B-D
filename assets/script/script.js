@@ -86,7 +86,6 @@ $("#results-container").on("click", "button", function() {
 })
 
 
-
 //Additional functions for the YoutubeAPI to work as intended
 function onYouTubeIframeAPIReady() {
     var songId = localStorage.getItem("songId");
@@ -187,7 +186,7 @@ function getLyrics(){
 //displayVideo("what");
 
 submitButtonEl.addEventListener("click", displaySearchResults);
-// returnButtonEl.addEventListener("click", returnToSearch);
+returnButtonEl.addEventListener("click", returnToSearch);
 
 //disabled function to save API key from running out
 submitButtonEl.addEventListener("click", getLyrics);
