@@ -14,26 +14,28 @@ $("#submit-button").on("click", function() {
     var youtubeList = "https://youtube.googleapis.com/youtube/v3/search?part=snippet&maxResults=10&type=video&q=" + searchTerm + "&key=" + youtubeApiKey;
 
     fetch(youtubeList)
-    .then(function(response) {
-        return response.json();
-    })
-    .then(function(response) {
-                
-        for (i=0; i < response.items.length; i++) {
-            var title = response.items[i].snippet.title;
-            var videoId = response.items[i].id.videoId;
-            var resultsEl = document.querySelector("#results-container");
-            var resultsButton = document.createElement("button");
+        .then(function(response) {
+            return response.json();
+        })
 
-            resultsButton.id = title;
-            resultsButton.className = "resultsButton"
-            // add css class
-            // resultsButton.classList.add("");
-            resultsButton.textContent = title;
-            resultsButton.id = videoId;
-            resultsEl.appendChild(resultsButton);
-        } 
-    })
+        .then(function(response) {
+                    
+            for (i=0; i < response.items.length; i++) {
+                var title = response.items[i].snippet.title;
+                var videoId = response.items[i].id.videoId;
+                var resultsEl = document.querySelector("#results-container");
+                var resultsButton = document.createElement("button");
+
+                resultsButton.id = title;
+                resultsButton.className = "resultsButton"
+                // add css class
+                // resultsButton.classList.add("");
+                resultsButton.textContent = title;
+                resultsButton.id = videoId;
+                resultsEl.appendChild(resultsButton);
+            } 
+        })
+    
     
 })
 //function to click result button to see youtube video and lyrics
@@ -41,11 +43,14 @@ $("#results-container").on("click", "button", function() {
     var songId = $(this).attr("id");
     var titleEl = document.createElement("div");
     var descriptionEl = document.createElement("div");
+<<<<<<< HEAD
 
     console.log(songId);
 
     localStorage.setItem("songId", songId);
     onYouTubeIframeAPIReady();
+=======
+>>>>>>> 11f7134aff26490b7fe6c03ce45c7a98516bd64e
 
 })
 
