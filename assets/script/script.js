@@ -53,9 +53,13 @@ $("#submit-button").on("click", function() {
 function pastSearches (searchTerm){
     var pastSearchEl = document.querySelector("#past-searches-container")
 
-    pastSearchEl.innerHTML = "";
-    pastSearchList.push(searchTerm);
-    localStorage.setItem("searchTerm", JSON.stringify(pastSearchList));
+    //pastSearchEl.innerHTML = "";
+
+    var pastSearchesArray = JSON.parse(localStorage.getItem("searchTerm"));
+
+    pastSearchesArray.push(searchTerm);
+
+    localStorage.setItem("searchTerm", JSON.stringify(pastSearchesArray));
 
     
     for (var j=0; j < pastSearchList.length; j++) {
@@ -75,7 +79,7 @@ $("#past-searches-container").on("click", "button", function() {
     console.log(pastSearch);
     document.querySelector("#artistField").value = pastSearch;
     document.querySelector("#submit-button").click();
-  });
+});
 
 //function to click result button to see youtube video and lyrics
 $("#results-container").on("click", "button", function() {
@@ -196,7 +200,6 @@ function loadLocalStorage(){
     console.log(storedSearches);
     
     for (var j=0; j < storedSearches.length; j++) {
-        console.log("we are here");
         var pastSearchLi = document.createElement("button");
         pastSearchLi.classList.add("past-button");
         pastSearchLi.setAttribute("id", storedSearches[j])
