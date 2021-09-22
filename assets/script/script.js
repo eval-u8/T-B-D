@@ -15,10 +15,8 @@ $("#submit-button").on("click", function() {
     var songSearch = document.querySelector("#songField").value;
     var searchTerm = artistSearch + " " + songSearch;
     console.log(searchTerm);
-    clearSearchValues();
     var youtubeList = "https://youtube.googleapis.com/youtube/v3/search?part=snippet&maxResults=1&type=video&q=" + searchTerm  + "&key=" + youtubeApiKey;
     
-    pastSearches(searchTerm);
 
     fetch(youtubeList)
     .then(function(response) {
@@ -46,7 +44,7 @@ $("#submit-button").on("click", function() {
         console.log(error);
     })
 
-    
+    pastSearches(searchTerm.trim());
     
 })
 
@@ -84,7 +82,9 @@ function pastSearches(searchTerm){
 
     }
 
-    clearSearchValues();
+    if(pastSearchesArray.length === 1) { 
+        loadLocalStorage();
+    }
 }
 
 //function to click on past search and display results
@@ -204,8 +204,8 @@ function getLyrics(){
 }
 
 function clearSearchValues() {
-    $("#artistField").value = "";
-    $("#songField").value = "";
+    $("#artistField")[0].value = "";
+    $("#songField")[0].value = "";
 }
 
 function loadLocalStorage(){
@@ -225,6 +225,7 @@ function loadLocalStorage(){
 //Do not use function unless necessary
 
 submitButtonEl.addEventListener("click", displaySearchResults);
+submitButtonEl.addEventListener("click", clearSearchValues);
 returnButtonEl.addEventListener("click", returnToSearch);
 
 //disabled function to save API key from running out
