@@ -45,8 +45,11 @@ $("#results-container").on("click", "button", function() {
     var titleEl = document.createElement("div");
     var descriptionEl = document.createElement("div");
 
-    localStorage.setItem("songId", videoId);
-    //onYouTubeIframeAPIReady();
+    console.log(songId);
+
+    localStorage.setItem("songId", songId);
+    onYouTubeIframeAPIReady();
+
 })
 
 
@@ -62,9 +65,8 @@ $("#results-container").on("click", "button", function() {
 
 //Additional functions for the YoutubeAPI to work as intended
 function onYouTubeIframeAPIReady() {
-
     var songId = localStorage.getItem("songId");
-    
+
     if(songId !== undefined) {
         var player;
         player = new YT.Player('player', {
