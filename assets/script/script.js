@@ -16,7 +16,7 @@ $("#submit-button").on("click", function() {
     var searchTerm = artistSearch + " " + songSearch;
     var youtubeList = "https://youtube.googleapis.com/youtube/v3/search?part=snippet&maxResults=1&type=video&q=" + searchTerm + "&key=" + youtubeApiKey;
     
-    pastSearches (searchTerm);
+    pastSearches(searchTerm);
 
     fetch(youtubeList)
         .then(function(response) {
@@ -78,13 +78,12 @@ $("#results-container").on("click", "button", function() {
     var titleEl = document.createElement("div");
     var descriptionEl = document.createElement("div");
 
-    console.log(songId);
+    console.log(videoId);
 
-    localStorage.setItem("songId", songId);
+    localStorage.setItem("songId", videoId);
     onYouTubeIframeAPIReady();
 
 })
-
 
 
 //Additional functions for the YoutubeAPI to work as intended
@@ -187,7 +186,7 @@ function getLyrics(){
 //displayVideo("what");
 
 submitButtonEl.addEventListener("click", displaySearchResults);
-// returnButtonEl.addEventListener("click", returnToSearch);
+returnButtonEl.addEventListener("click", returnToSearch);
 
 //disabled function to save API key from running out
 submitButtonEl.addEventListener("click", getLyrics);
