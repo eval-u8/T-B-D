@@ -3,45 +3,61 @@ var searchResultsEl = document.getElementById("search-results-container");
 var submitButtonEl = document.getElementById("submit-button");
 var returnButtonEl = document.getElementById("return-button");
 var lyricsResultEl = document.getElementById("#lyrics-result");
+var youtubeApiKey = "AIzaSyCJWvqCTRTWGZS0kkTzWsyhnD-gB4nmWVE";
 
+// Function to get search term from input
+$("#submit-button").on("click", function() {
+    var artistSearch = document.querySelector("#artist-search").value;
+    var songSearch = document.querySelector("#song-search").value;
+    var searchTerm = artistSearch + " " + songSearch;
+    var youtubeList = "https://youtube.googleapis.com/youtube/v3/search?part=snippet&maxResults=10&type=video&q=" + searchTerm + "&key=" + youtubeApiKey;
 
-//Function to display video based on search
-function displayVideo(songName) {
+    fetch(youtubeList)
+        .then(function(response) {
+            return response.json();
+        })
 
-    var splitName = songName.split(' ');
+        .then(function(response) {
+                    
+            for (i=0; i < response.items.length; i++) {
+                var title = response.items[i].snippet.title;
+                var videoId = response.items[i].id.videoId;
+                var resultsEl = document.querySelector("#results-container");
+                var resultsButton = document.createElement("button");
 
-    var searchTerm = "";
-
-    for(var i = 0; i < splitName.length; i++) {
-        searchTerm += splitName[i] + "%20";
-    }
-
-    console.log(searchTerm);
-
-    var nameToSearch = "https://www.googleapis.com/youtube/v3/search?part=snippet&q=" + searchTerm  + "apikey=AIzaSyAFIRLZjGh2GANgLg96xjQYCzNQO-OZ1RU";
-
-    fetch(nameToSearch)
-    .then(function(response) {
-        return response.json();
-    })
-    .then(function(response) {
-        console.log(response);
-        console.log(response.items[0].id.videoId);
-        onYouTubeIframeAPIReady(response.items[0].id.videoId);
-
-
-        //Double check these work -- API rate limited and cannot test
+                resultsButton.id = title;
+                resultsButton.className = "resultsButton"
+                // add css class
+                // resultsButton.classList.add("");
+                resultsButton.textContent = title;
+                resultsButton.id = videoId;
+                resultsEl.appendChild(resultsButton);
+            } 
         var titleEl = document.createElement("div");
         var descriptionEl = document.createElement("div");
 
         titleEl.textContent = response.items[0].snippet.title;
         descriptionEl.textContent = response.items[0].snippet.description;
-    })  
-    .catch(function(error) {
-        console.log(error);
-    })
+        onYouTubeIframeAPIReady(response.items[0].id.videoId);
+        })
+    
+    
+})
+//function to click result button to see youtube video and lyrics
+$("#results-container").on("click", "button", function() {
 
-}
+})
+
+
+//Function to display video based on search
+// function displayVideo(response) {
+//         var titleEl = document.createElement("div");
+//         var descriptionEl = document.createElement("div");
+
+//         titleEl.textContent = response.items[0].snippet.title;
+//         descriptionEl.textContent = response.items[0].snippet.description;
+//     }
+
 
 //Additional functions for the YoutubeAPI to work as intended
 function onYouTubeIframeAPIReady(songId) {
@@ -99,7 +115,6 @@ function getLyrics(songName){
     }
 
     var apiKey = "https://api.musixmatch.com/ws/1.1/track.search?q="+ searchTerm + "page_size=3&page=1&s_track_rating=desc&apikey=b821d7d8d4a306e5ec045464dcd5ed20";
-    console.log(apiKey);
 
     fetch(apiKey)
     .then(function(response) {
@@ -109,8 +124,6 @@ function getLyrics(songName){
         console.log(response);
         console.log(response.message.body.track_list[0].track.commontrack_id);
 
-
-        //May cause error if no track is listed
         var songId = "https://api.musixmatch.com/ws/1.1/track.lyrics.get?track_id="+ response.message.body.track_list[0].track.track_id + 
                         "&apikey=b821d7d8d4a306e5ec045464dcd5ed20";
         
@@ -134,11 +147,14 @@ function getLyrics(songName){
 
 
 }
-
 //Do not use function unless necessary
-//displayVideo("bohemian rhapsody");
-submitButtonEl.addEventListener("click", displaySearchResults);
-returnButtonEl.addEventListener("click", returnToSearch);
+
+// displayVideo();
+
+//displayVideo("what");
+
+// submitButtonEl.addEventListener("click", displaySearchResults);
+// returnButtonEl.addEventListener("click", returnToSearch);
 
 //disabled function to save API key from running out
-//getLyrics("bohemian rhapsody queen");
+//getLyrics("bohemian rhapsody queen")

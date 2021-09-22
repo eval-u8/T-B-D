@@ -1,68 +1,90 @@
-<!DOCTYPE html>
+ <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"><link rel="stylesheet" href="./assets/style/style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300italic,700,700italic"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.css"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/milligram/1.4.1/milligram.css">
-    <title>TBD Music</title>
+    <link rel="stylesheet" href="./assets/style/style.css">
+    <title>TunesBeDope</title>
 </head>
 <body>
     <header>
-        <nav>
-            <div id="logo">
-                TBD Music logo
+        <div class="container">
+            <div id="header" class="row">
+                <div id="logo" class="column">
+                  <!-- <img src="./assets/images/g-clef-logo.png" alt="TBD Logo" /> -->
+                    TBD Music logo
+                </div>
+                <div id="site-name" class="column">
+                    TunesBeDope
+                </div>
+                <div id="home-button" class="column column-50 column-offset-25">
+                    <a class="button" href="#">Home</a>
+                </div>
             </div>
-            <div id="site-name">
-                TBD Music
-            </div>
-            <div id="home-button">
-                
-            </div>
-        </nav>
+        </div>
     </header>
-
-    <div id="hero-image"></div>
+  
+    <!--<div class="hero-image"></div>-->
 
     <div class="container">
         <div id="search-container" class="row">
             <!--make columns for artist name & input, song name & input, search button-->
-            <div class="column">Test column</div>
-            <button id="submit-button" class="column">Submit</button>
-        </div>
+            <form id="artist-search" class="column column-50">
+                <fieldset>
+                  <label for="artistField">Artist Name:</label>
+                  <input type="text" placeholder="" id="artistField">
+                </fieldset>
+            </form>
 
+            <form id="song-search" class="column column-50">
+                <fieldset>
+                  <label for="songField">Song Name:</label>
+                  <input type="text" placeholder="" id="songField">
+                </fieldset>
+            </form>
+            <div class="column">Test column</div>
+        </div>
+        
+        <div class="row">
+            <input id="submit-button" class="button-primary" type="submit" value="search">
+        </div>
+<!--         <div class="row">
+            <a class="button-primary" href="#">Search</a>
+        </div> -->
+        
         <div id="results-container" class="row">
             <div class="column">
                 <!--search terms and create results divs-->
-                <div>Test search</div>
-
-            </div>
-            <div class="column">
-                <!--create past searches divs-->
-                <div>Test past search</div>
-
-            </div>
-
-        </div>
-        
-    </div>
-
-    <div id = "search-results-container" class="container">
-        <div class="row">
-            Enter search here
-            <button id="return-button">Back to Search</button>
-        </div>
-        <div class="row">
-            <div id="player" class="column">
-                test player
-            </div>
-            <div id="lyrics-result" class="column">
-                test
+                <div class="column column-33">Test search</div>
+                <div class="column column-50">Test search</div>
+                <div class="column column-50">Test search</div>
+                <div class="column column-50">Test search</div>
+                <div class="column column-50">Test search</div>
+                    <div>Test search</div>
+                </div>
+                <div class="column">
+                    <!--create past searches divs-->
+                    <div>Test past search</div>
             </div>
         </div>
-    </div>
 
-    
+        <div id="search-results-container" class="container">
+            <div class="row"
+                >Enter search here<button id="return-button"
+                    >Back to Search</button
+                >
+            </div>
+            <div class="row">
+                <div id="player" class="column"> test player </div>
+                <div id="lyrics-result" class="column"> test </div>
+            </div>
+        </div>
+      
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script src="./assets/script/script.js"></script>
     <script src="https://www.youtube.com/iframe_api"></script>
     <script type="text/javascript" src="http://tracking.musixmatch.com/t1.0/AMa6hJCIEzn1v8RuOP"></script>
