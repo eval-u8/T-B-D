@@ -43,14 +43,11 @@ $("#results-container").on("click", "button", function() {
     var songId = $(this).attr("id");
     var titleEl = document.createElement("div");
     var descriptionEl = document.createElement("div");
-<<<<<<< HEAD
 
     console.log(songId);
 
     localStorage.setItem("songId", songId);
     onYouTubeIframeAPIReady();
-=======
->>>>>>> 11f7134aff26490b7fe6c03ce45c7a98516bd64e
 
 })
 
