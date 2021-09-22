@@ -79,7 +79,7 @@ function pastSearches(searchTerm){
         pastSearchLi.classList.add("past-button");
         pastSearchLi.setAttribute("id", buttonArray[j])
         pastSearchLi.innerHTML = buttonArray[j];
-        pastSearchEl.appendChild(buttonArray);
+        pastSearchEl.appendChild(pastSearchLi);
     }
 
     if(pastSearchesArray.length === 1) {
