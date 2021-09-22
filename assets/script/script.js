@@ -5,12 +5,12 @@ var returnButtonEl = document.getElementById("return-button");
 var lyricsResultEl = document.getElementById("#lyrics-result");
 var youtubeApiKey = "AIzaSyCJWvqCTRTWGZS0kkTzWsyhnD-gB4nmWVE";
 
-// // Function to get search term from input
+// Function to get search term from input
 $("#submit-button").on("click", function() {
     var artistSearch = document.querySelector("#artist-search").value;
     var songSearch = document.querySelector("#song-search").value;
     var searchTerm = artistSearch + " " + songSearch;
-    var youtubeList = "https://youtube.googleapis.com/youtube/v3/search?part=snippet&maxResults=10&q=" + searchTerm + "&key=" + youtubeApiKey;
+    var youtubeList = "https://youtube.googleapis.com/youtube/v3/search?part=snippet&maxResults=10&type=video&q=" + searchTerm + "&key=" + youtubeApiKey;
 
     fetch(youtubeList)
         .then(function(response) {
@@ -21,15 +21,26 @@ $("#submit-button").on("click", function() {
                     
             for (i=0; i < response.items.length; i++) {
                 var title = response.items[i].snippet.title;
+                var videoId = response.items[i].id.videoId;
                 var resultsEl = document.querySelector("#results-container");
                 var resultsButton = document.createElement("button");
 
                 resultsButton.id = title;
                 resultsButton.className = "resultsButton"
+                // add css class
+                // resultsButton.classList.add("");
                 resultsButton.textContent = title;
+                resultsButton.id = videoId;
                 resultsEl.appendChild(resultsButton);
             } 
+        var titleEl = document.createElement("div");
+        var descriptionEl = document.createElement("div");
+
+        titleEl.textContent = response.items[0].snippet.title;
+        descriptionEl.textContent = response.items[0].snippet.description;
+        onYouTubeIframeAPIReady(response.items[0].id.videoId);
         })
+    
     
 })
 //function to click result button to see youtube video and lyrics
@@ -39,42 +50,14 @@ $("#results-container").on("click", "button", function() {
 
 
 //Function to display video based on search
-function displayVideo(songName) {
+// function displayVideo(response) {
+//         var titleEl = document.createElement("div");
+//         var descriptionEl = document.createElement("div");
 
-    /*var splitName = songName.split(' ');
+//         titleEl.textContent = response.items[0].snippet.title;
+//         descriptionEl.textContent = response.items[0].snippet.description;
+//     }
 
-    var searchTerm = "";
-
-    for(var i = 0; i < splitName.length; i++) {
-        searchTerm += splitName[i] + "&";
-    }*/
-
-    console.log(searchTerm);
-
-    var nameToSearch = "https://www.googleapis.com/youtube/v3/search?part=snippet&q=" + searchTerm + "apikey=AIzaSyDZ1smQzCupYTg94dIrznPA46HLnyTdtrA";
-
-    fetch(nameToSearch)
-    .then(function(response) {
-        return response.json();
-    })
-    .then(function(response) {
-        console.log(response);
-        console.log(response.items[0].id.videoId);
-        onYouTubeIframeAPIReady(response.items[0].id.videoId);
-
-
-        //Double check these work -- API rate limited and cannot test
-        var titleEl = document.createElement("div");
-        var descriptionEl = document.createElement("div");
-
-        titleEl.textContent = response.items[0].snippet.title;
-        descriptionEl.textContent = response.items[0].snippet.description;
-    })  
-    .catch(function(error) {
-        console.log(error);
-    })
-
-}
 
 //Additional functions for the YoutubeAPI to work as intended
 function onYouTubeIframeAPIReady(songId) {
