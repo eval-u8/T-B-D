@@ -3,6 +3,7 @@ var searchResultsEl = document.getElementById("search-results-container");
 var submitButtonEl = document.getElementById("submit-button");
 var returnButtonEl = document.getElementById("return-button");
 var lyricsResultEl = document.getElementById("#lyrics-result");
+var pastSearchList = JSON.parse(localStorage.getItem("songIdList")) || [];
 var youtubeApiKey = "AIzaSyCJWvqCTRTWGZS0kkTzWsyhnD-gB4nmWVE";
 
 // Function to get search term from input
@@ -33,18 +34,15 @@ $("#submit-button").on("click", function() {
                 resultsButton.id = videoId;
                 resultsEl.appendChild(resultsButton);
             } 
-        var titleEl = document.createElement("div");
-        var descriptionEl = document.createElement("div");
-
-        titleEl.textContent = response.items[0].snippet.title;
-        descriptionEl.textContent = response.items[0].snippet.description;
-        onYouTubeIframeAPIReady(response.items[0].id.videoId);
         })
     
     
 })
 //function to click result button to see youtube video and lyrics
 $("#results-container").on("click", "button", function() {
+    var songId = $(this).attr("id");
+    var titleEl = document.createElement("div");
+    var descriptionEl = document.createElement("div");
 
 })
 
@@ -61,6 +59,7 @@ $("#results-container").on("click", "button", function() {
 
 //Additional functions for the YoutubeAPI to work as intended
 function onYouTubeIframeAPIReady(songId) {
+    
     if(songId !== undefined) {
         var player;
         player = new YT.Player('player', {
@@ -158,3 +157,4 @@ function getLyrics(songName){
 
 //disabled function to save API key from running out
 //getLyrics("bohemian rhapsody queen")
+onYouTubeIframeAPIReady(songId)
