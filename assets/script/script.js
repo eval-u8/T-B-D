@@ -7,7 +7,7 @@ var pastSearchIdList = JSON.parse(localStorage.getItem("songIdList")) || [];
 var pastSearchList = JSON.parse(localStorage.getItem("searchTerms")) || [];
 
 
-var youtubeApiKey = "AIzaSyCsIwO5s2YvLSMRMTFpU4nf_zjDKRClc2g";
+var youtubeApiKey = "AIzaSyDSC6NFaENlFTIjmbpHd_jemFx4xO9ajg4";
 
 // Function to get search term from input
 $("#submit-button").on("click", function() {
