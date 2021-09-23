@@ -7,7 +7,7 @@ var pastSearchIdList = JSON.parse(localStorage.getItem("songIdList")) || [];
 var pastSearchList = JSON.parse(localStorage.getItem("searchTerms")) || [];
 
 
-var youtubeApiKey = "AIzaSyAW8RErsioqo5FSeO_2KsSKsl4BWNwNef4";
+var youtubeApiKey = "AIzaSyCcSCDSMxb3__k1A8c_W46zVB5_fLR9D1k";
 
 // Function to get search term from input
 $("#submit-button").on("click", function() {
@@ -65,7 +65,7 @@ function pastSearches(searchTerm){
 
         var pastSearchLi = document.createElement("button");
         pastSearchLi.classList.add("past-button");
-        pastSearchLi.setAttribute("id", searchTerm)
+        pastSearchLi.setAttribute("id", searchTerm);
         pastSearchLi.innerHTML = searchTerm;
         pastSearchEl.appendChild(pastSearchLi);
     }
@@ -178,20 +178,32 @@ function getLyrics(){
 
         var copyRightAllowed = songIdResponse.message.body.lyrics.lyrics_copyright;
         var lyrics = songIdResponse.message.body.lyrics.lyrics_body;
-        var lyricParagraph = document.createElement("p")
+        var lyricParagraph = document.createElement("p");
 
-
+        console.log($("#lyrics-div"));
+        if($("#lyrics-div")) {
+            lyricParagraph.textContent = "";
+        }
 
         //If copyright law allows any of the lyrics to be reprinted, there are printed here
         //Songs with copyright issues do not print any lyrics but an error message instead
         if(copyRightAllowed == "Unfortunately we're not authorized to show these lyrics.") {
             //Print error message here
-            console.log("Copyright law does not allow these lyrics to be printed");
+            lyricParagraph.innerText = "Copyright law does not allow these lyrics to be printed";
         } else {
             //Print lyrics to page here
             console.log(lyrics);
-            lyricParagraph.classList.add("lyrics-text");
-            lyricParagraph.innerText = lyrics;
+            if(lyricParagraph.innerText === "") {
+                lyricParagraph.setAttribute("id", "lyrics-div");
+                lyricParagraph.classList.add("lyrics-text");
+                lyricParagraph.innerText = lyrics;
+            } else {
+                console.log("we are here");
+                lyricParagraph.innerText = "";
+                lyricParagraph.innerText = lyrics;
+            }
+
+
             searchResultsEl.appendChild(lyricParagraph);
         }
 
