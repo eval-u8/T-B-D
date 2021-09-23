@@ -178,6 +178,9 @@ function getLyrics(){
 
         var copyRightAllowed = songIdResponse.message.body.lyrics.lyrics_copyright;
         var lyrics = songIdResponse.message.body.lyrics.lyrics_body;
+        var lyricParagraph = document.createElement("p")
+
+
 
         //If copyright law allows any of the lyrics to be reprinted, there are printed here
         //Songs with copyright issues do not print any lyrics but an error message instead
@@ -187,6 +190,9 @@ function getLyrics(){
         } else {
             //Print lyrics to page here
             console.log(lyrics);
+            lyricParagraph.classList.add("lyrics-text");
+            lyricParagraph.innerText = lyrics;
+            searchResultsEl.appendChild(lyricParagraph);
         }
 
     })
@@ -223,6 +229,6 @@ submitButtonEl.addEventListener("click", clearSearchValues);
 returnButtonEl.addEventListener("click", returnToSearch);
 
 //disabled function to save API key from running out
-//submitButtonEl.addEventListener("click", getLyrics);
+submitButtonEl.addEventListener("click", getLyrics);
 
 loadLocalStorage();

@@ -112,3 +112,10 @@ body {
 #search-results-container {
     visibility: hidden;
 }
+
+#search-results {
+    color: #321325;
+    font-weight: bold;
+    font-size: 20px;
+    padding-left: 0;
+} 
