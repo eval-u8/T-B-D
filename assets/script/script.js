@@ -79,14 +79,6 @@ function pastSearches(searchTerm){
     localStorage.setItem("searchTerm", JSON.stringify(pastSearchesArray));
 
     var buttonArray = JSON.parse(localStorage.getItem("searchTerm")) || [];
-    
-    
-
-    
-
-    if(buttonArray.length === 1) {
-        loadLocalStorage();
-    }
 
 }
 
