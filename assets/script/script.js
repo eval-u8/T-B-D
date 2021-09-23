@@ -26,7 +26,7 @@ $("#submit-button").on("click", function() {
 
     .then(function(response) {
                 
-        for (i=0; i < response.items.length; i++) {
+        for (var i=0; i < response.items.length; i++) {
             var title = response.items[i].snippet.title;
             var videoId = response.items[i].id.videoId;
             var resultsEl = document.querySelector("#results-container");
@@ -62,6 +62,12 @@ function pastSearches(searchTerm){
         console.log("before", pastSearchesArray);
         pastSearchesArray.push(searchTerm);
         console.log("after", pastSearchesArray);
+
+        var pastSearchLi = document.createElement("button");
+        pastSearchLi.classList.add("past-button");
+        pastSearchLi.setAttribute("id", searchTerm)
+        pastSearchLi.innerHTML = searchTerm;
+        pastSearchEl.appendChild(pastSearchLi);
     }
 
     /*for(var i = 0; i < pastSearchesArray.length; i++) { 
@@ -74,15 +80,11 @@ function pastSearches(searchTerm){
 
     var buttonArray = JSON.parse(localStorage.getItem("searchTerm")) || [];
     
-    for (var j=0; j < buttonArray.length; j++) {
-        var pastSearchLi = document.createElement("button");
-        pastSearchLi.classList.add("past-button");
-        pastSearchLi.setAttribute("id", buttonArray[j])
-        pastSearchLi.innerHTML = buttonArray[j];
-        pastSearchEl.appendChild(pastSearchLi);
-    }
+    
 
-    if(pastSearchesArray.length === 1) {
+    
+
+    if(buttonArray.length === 1) {
         loadLocalStorage();
     }
 
