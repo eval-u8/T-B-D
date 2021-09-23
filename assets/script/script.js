@@ -14,10 +14,10 @@ $("#submit-button").on("click", function() {
     var artistSearch = document.querySelector("#artistField").value;
     var songSearch = document.querySelector("#songField").value;
     var searchTerm = artistSearch + " " + songSearch;
-    clearSearchValues();
-    var youtubeList = "https://youtube.googleapis.com/youtube/v3/search?part=snippet&maxResults=1&type=video&q=" + searchTerm + "&key=" + youtubeApiKey;
+    console.log(searchTerm);
+    var youtubeList = "https://youtube.googleapis.com/youtube/v3/search?part=snippet&maxResults=1&type=video&q=" + searchTerm  + "&key=" + youtubeApiKey;
     
-    pastSearches(searchTerm);
+    pastSearches(searchTerm.trim());
 
     fetch(youtubeList)
     .then(function(response) {
@@ -26,7 +26,7 @@ $("#submit-button").on("click", function() {
 
     .then(function(response) {
                 
-        for (i=0; i < response.items.length; i++) {
+        for (var i=0; i < response.items.length; i++) {
             var title = response.items[i].snippet.title;
             var videoId = response.items[i].id.videoId;
             var resultsEl = document.querySelector("#results-container");
@@ -50,26 +50,35 @@ $("#submit-button").on("click", function() {
 })
 
 //function to save search term to local storage
-function pastSearches (searchTerm){
-    var pastSearchEl = document.querySelector("#past-searches-container")
+function pastSearches(searchTerm){
+    
+    var pastSearchEl = document.querySelector("#past-searches-container");
 
     //pastSearchEl.innerHTML = "";
 
-    var pastSearchesArray = JSON.parse(localStorage.getItem("searchTerm"));
+    var pastSearchesArray = JSON.parse(localStorage.getItem("searchTerm")) || [];
 
-    pastSearchesArray.push(searchTerm);
+    if(!(pastSearchesArray.includes(searchTerm))) {
+        console.log("before", pastSearchesArray);
+        pastSearchesArray.push(searchTerm);
+        console.log("after", pastSearchesArray);
+
+        var pastSearchLi = document.createElement("button");
+        pastSearchLi.classList.add("past-button");
+        pastSearchLi.setAttribute("id", searchTerm)
+        pastSearchLi.innerHTML = searchTerm;
+        pastSearchEl.appendChild(pastSearchLi);
+    }
+
+    /*for(var i = 0; i < pastSearchesArray.length; i++) { 
+        console.log(pastSearchesArray[i]);
+        pastSearchesArray[i].trim();
+        console.log(pastSearchesArray[i]);
+    }*/
 
     localStorage.setItem("searchTerm", JSON.stringify(pastSearchesArray));
 
-    
-    for (var j=0; j < pastSearchList.length; j++) {
-        var pastSearchLi = document.createElement("button");
-        pastSearchLi.classList.add("past-button");
-        pastSearchLi.setAttribute("id", pastSearchList[j])
-        pastSearchLi.innerHTML = pastSearchList[j];
-        pastSearchEl.appendChild(pastSearchLi);
-
-    }
+    var buttonArray = JSON.parse(localStorage.getItem("searchTerm")) || [];
 
 }
 
@@ -189,14 +198,14 @@ function getLyrics(){
 }
 
 function clearSearchValues() {
-    $("#artistField").value = "";
-    $("#songField").value = "";
+    $("#artistField")[0].value = "";
+    $("#songField")[0].value = "";
 }
 
 function loadLocalStorage(){
     var pastSearchEl = document.querySelector("#past-searches-container")
 
-    var storedSearches = JSON.parse(localStorage.getItem("searchTerm"));
+    var storedSearches = JSON.parse(localStorage.getItem("searchTerm")) || [];
     console.log(storedSearches);
     
     for (var j=0; j < storedSearches.length; j++) {
@@ -210,9 +219,10 @@ function loadLocalStorage(){
 //Do not use function unless necessary
 
 submitButtonEl.addEventListener("click", displaySearchResults);
+submitButtonEl.addEventListener("click", clearSearchValues);
 returnButtonEl.addEventListener("click", returnToSearch);
 
 //disabled function to save API key from running out
-submitButtonEl.addEventListener("click", getLyrics);
+//submitButtonEl.addEventListener("click", getLyrics);
 
 loadLocalStorage();
