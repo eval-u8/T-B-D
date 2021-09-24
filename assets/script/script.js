@@ -7,7 +7,7 @@ var pastSearchIdList = JSON.parse(localStorage.getItem("songIdList")) || [];
 var pastSearchList = JSON.parse(localStorage.getItem("searchTerms")) || [];
 
 
-var youtubeApiKey = "AIzaSyDSC6NFaENlFTIjmbpHd_jemFx4xO9ajg4";
+var youtubeApiKey = "AIzaSyAFIRLZjGh2GANgLg96xjQYCzNQO-OZ1RU";
 
 // Function to get search term from input
 $("#submit-button").on("click", function() {
@@ -159,9 +159,9 @@ function stopVideo() {
 
 
 //Functions for CSS modifications
-// function returnToSearch() {
-//     searchResultsEl.style.visibility = "hidden";
-// }
+ function returnToSearch() {
+     searchResultsEl.style.visibility = "hidden";
+}
 
 function displaySearchResults() {
     searchResultsEl.style.visibility = "visible";
@@ -229,19 +229,21 @@ function loadLocalStorage(){
     var pastSearchEl = document.querySelector("#past-searches-container")
 
     var storedSearches = JSON.parse(localStorage.getItem("searchTerm")) || [];
+
+    console.log(storedSearches);
     
     for (var j=0; j < storedSearches.length; j++) {
         var pastSearchLi = document.createElement("button");
         pastSearchLi.classList.add("past-button");
-        pastSearchLi.setAttribute("id", storedSearches[j])
-        pastSearchLi.innerHTML = storedSearches[j];
+        pastSearchLi.setAttribute("id", storedSearches[j].artist + " - " + storedSearches[j].title)
+        pastSearchLi.innerHTML = storedSearches[j].artist + "-" + storedSearches[j].title;
         pastSearchEl.appendChild(pastSearchLi);
     }
 }
 
 //Do not use function unless necessary
 
-// submitButtonEl.addEventListener("click", displaySearchResults);
+submitButtonEl.addEventListener("click", displaySearchResults);
 
 loadLocalStorage();
 
