@@ -2,7 +2,7 @@ var testDivEl = document.getElementById("player");
 var searchResultsEl = document.getElementById("search-results-container");
 var submitButtonEl = document.getElementById("submit-button");
 var returnButtonEl = document.getElementById("return-button");
-var lyricsResultEl = document.getElementById("#lyrics-result");
+var lyricsResultEl = document.getElementById("lyrics-result");
 var pastSearchIdList = JSON.parse(localStorage.getItem("songIdList")) || [];
 var pastSearchList = JSON.parse(localStorage.getItem("searchTerms")) || [];
 
@@ -43,7 +43,7 @@ $("#submit-button").on("click", function() {
         console.log(error);
     })
 
-    
+    displaySearchResults();
     
 })
 
@@ -83,6 +83,7 @@ $("#results-container").on("click", "button", function() {
     var titleEl = document.createElement("div");
     var descriptionEl = document.createElement("div");
 
+    getLyrics();
     localStorage.setItem("songId", videoId);
 })
 
@@ -175,7 +176,7 @@ function getLyrics(){
             console.log(lyrics);
             lyricParagraph.classList.add("lyrics-text");
             lyricParagraph.innerText = lyrics;
-            searchResultsEl.appendChild(lyricParagraph);
+            lyricsResultEl.appendChild(lyricParagraph);
         }
 
     })
@@ -206,12 +207,7 @@ function loadLocalStorage(){
 }
 //Do not use function unless necessary
 
-submitButtonEl.addEventListener("click", displaySearchResults);
-// submitButtonEl.addEventListener("click", clearSearchValues);
-// returnButtonEl.addEventListener("click", returnToSearch);
-
-//disabled function to save API key from running out
-submitButtonEl.addEventListener("click", getLyrics);
+// submitButtonEl.addEventListener("click", displaySearchResults);
 
 loadLocalStorage();
 
