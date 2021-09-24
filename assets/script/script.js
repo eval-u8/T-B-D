@@ -17,6 +17,9 @@ $("#submit-button").on("click", function() {
     var youtubeList = "https://youtube.googleapis.com/youtube/v3/search?part=snippet&maxResults=1&type=video&q=" + searchTerm  + "&key=" + youtubeApiKey;
     
     pastSearches(searchTerm.trim());
+    var resultsContainerEl = document.querySelector("#results-container");
+
+    resultsContainerEl.innerHTML = "";
 
     fetch(youtubeList)
     .then(function(response) {
@@ -24,19 +27,33 @@ $("#submit-button").on("click", function() {
     })
 
     .then(function(response) {
-        for (var i=0; i < response.items.length; i++) {
-            var title = response.items[i].snippet.title;
-            var videoId = response.items[i].id.videoId;
-            var resultsEl = document.querySelector("#results-container");
-            var resultsButton = document.createElement("button");
+        if (artistSearch == "" || songSearch == "") {
+            // replace alert with modal
+            // https://www.w3schools.com/howto/howto_css_modals.asp
 
-            resultsButton.id = title;
-            resultsButton.className = "resultsButton"
-            // add css class
-            // resultsButton.classList.add("");
-            resultsButton.textContent = title;
-            resultsButton.id = videoId;
-            resultsEl.appendChild(resultsButton);
+            alert("Please enter both an artist and a song title");
+        }
+        else {
+            var searchResultsTitle = document.createElement("h3");
+            var resultsEl = document.querySelector("#results-container");
+
+            searchResultsTitle.innerHTML = "Search Results:";
+            resultsEl.appendChild(searchResultsTitle);
+
+            for (var i=0; i < response.items.length; i++) {
+                var title = response.items[i].snippet.title;
+                var videoId = response.items[i].id.videoId;
+                var resultsEl = document.querySelector("#results-container");
+                var resultsButton = document.createElement("button");
+
+                resultsButton.id = title;
+                resultsButton.className = "resultsButton"
+                // add css class
+                // resultsButton.classList.add("");
+                resultsButton.textContent = title;
+                resultsButton.id = videoId;
+                resultsEl.appendChild(resultsButton);
+            }
         }
     })
     .catch(function(error) {
@@ -51,9 +68,6 @@ $("#submit-button").on("click", function() {
 function pastSearches(searchTerm){
     
     var pastSearchEl = document.querySelector("#past-searches-container");
-
-    //pastSearchEl.innerHTML = "";
-
     var pastSearchesArray = JSON.parse(localStorage.getItem("searchTerm")) || [];
 
     if(!(pastSearchesArray.includes(searchTerm))) {
@@ -131,6 +145,8 @@ function stopVideo() {
 // }
 
 function displaySearchResults() {
+    // var resultsContainerEl = document.querySelector("#search-results");
+    // resultsContainerEl.innerHTML = "";
     searchResultsEl.style.visibility = "visible";
 }
 
