@@ -33,6 +33,10 @@ body {
     color: white;
 }
 
+button {
+    height: fit-content;
+}
+
 .button {
     background-color: white;
     color: #321325;
@@ -68,9 +72,12 @@ body {
     width: fit-content;
 }
 
+.resultsButton {
+    width: fit-content;
+}
+
 #results-container {
     display: flex;
-    flex-direction: column;
 }
 
 #header {

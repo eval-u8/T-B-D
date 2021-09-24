@@ -52,38 +52,35 @@
             <input id="submit-button" class="button-primary" type="submit" value="search">
         </div>
 
-        
+        <h3>Search Results:</h3>
         <div id="results-container" class="row">
-            <div class="column">
-                <!--search terms and create results divs-->
-                <div id="search-results" class="column column-33">
+            
+            <!--search terms and create results divs-->
+            <div id="search-results" class="column column-67">
 
-                </div>
+            </div>
+            <div id="past-searches-container" class="column column-30">
+                <h3>Past Searches</h3>
+                <!-- past search terms -->
+                
             </div>
         </div>
-        <div class="column" id="past-searches-container">
-            <h3>Past Searches</h3>
-            <!-- past search terms -->
-            
-            <!-- <div class="column column-33">
-                
-            </div> -->
-        </div>
+
     </div>
 
-        <div id="search-results-container" class="container">
-            <div class="row">
-                <button id="return-button">Back to Search</button>
+    <div id="search-results-container" class="container">
+        <div class="row">
+            <button id="return-button">Back to Search</button>
+        </div>
+        <div class="row">
+            <div id="player" class="column">
+                <!-- Video shows here -->
             </div>
-            <div class="row">
-                <div id="player" class="column">
-                    <!-- Video shows here -->
-                </div>
-                <div id="lyrics-result" class="column">
-                    <!-- Lyrics show here -->
-                </div>
+            <div id="lyrics-result" class="column">
+                <!-- Lyrics show here -->
             </div>
         </div>
+    </div>
       
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script src="./assets/script/script.js"></script>
