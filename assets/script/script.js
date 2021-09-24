@@ -7,8 +7,6 @@ var pastSearchIdList = JSON.parse(localStorage.getItem("songIdList")) || [];
 var pastSearchList = JSON.parse(localStorage.getItem("searchTerms")) || [];
 var player;
 
-var fatId = "queen-fat bottom-VMnjF1O4eH0";
-
 var mockResponse = {"kind":"youtube#searchListResponse","etag":"g-kFa1lNH68H6Ttht2jmkgMJg3k","nextPageToken":"CAEQAA","regionCode":"US","pageInfo":{"totalResults":1000000,"resultsPerPage":1},"items":[{"kind":"youtube#searchResult","etag":"enGOs3s6Lm3RSB55akzDLfTp1Jc","id":{"kind":"youtube#video","videoId":"fJ9rUzIMcZQ"},"snippet":{"publishedAt":"2008-08-01T11:06:40Z","channelId":"UCiMhD4jzUqG-IgPzUmmytRQ","title":"Queen – Bohemian Rhapsody (Official Video Remastered)","description":"REMASTERED IN HD TO CELEBRATE ONE BILLION VIEWS! Taken from A Night At The Opera, 1975. Click here to buy the DVD with this video at the Official ...","thumbnails":{"default":{"url":"https://i.ytimg.com/vi/fJ9rUzIMcZQ/default.jpg","width":120,"height":90},"medium":{"url":"https://i.ytimg.com/vi/fJ9rUzIMcZQ/mqdefault.jpg","width":320,"height":180},"high":{"url":"https://i.ytimg.com/vi/fJ9rUzIMcZQ/hqdefault.jpg","width":480,"height":360}},"channelTitle":"Queen Official","liveBroadcastContent":"none","publishTime":"2008-08-01T11:06:40Z"}}]}
 
 
@@ -29,7 +27,7 @@ $("#submit-button").on("click", function() {
     //console.log(clearThese);
     
    // console.log($(resultsContainerEl));
-    /*if($(resultsContainerEl)[0].children[0].attributes[0].textContent = "search-results") {
+    /*if($(resultsContainerEl).hasChildren()) {
         console.log("this works");
         console.log($("#search-results"));
         //resultsContainerEl.removeChild($(resultsContainerEl)[0].children[0].children[0]);
@@ -41,17 +39,11 @@ $("#submit-button").on("click", function() {
     })
     .then(function(response) {
         if (artistSearch == "" || songSearch == "") {
-            // replace alert with modal
-            // https://www.w3schools.com/howto/howto_css_modals.asp
+            //Place error message here
 
             alert("Please enter both an artist and a song title");
         }
         else {
-            //var searchResultsTitle = document.createElement("h3");
-            //var resultsEl = document.querySelector("#results-container");
-            //var resultsButtonEl = document.getElementById("search-results");
-            //searchResultsTitle.innerHTML = "Search Results:";
-            //resultsEl.appendChild(searchResultsTitle);
             console.log(response);
             var idToPass = response.items[0].id.videoId;
             pastSearches(localStorage.getItem("searchTermPass"), idToPass);
@@ -64,27 +56,6 @@ $("#submit-button").on("click", function() {
             } else {
                 loadData(response);
             }
-
-            
-
-            /*for (var i=0; i < response.items.length; i++) {
-                var title = (response.items[i].snippet.title);
-                var videoId = response.items[i].id.videoId;
-                var resultsButton = document.createElement("button");
-                resultsButton.id = title;
-                resultsButton.className = "resultsButton";
-                // add css class
-                // resultsButton.classList.add("");
-                resultsButton.innerHTML = title;
-                resultsButton.id = videoId;
-                resultsButtonEl.appendChild(resultsButton);
-
-                //Variable to display first 50 char of video description. Put under video?
-                //var videoDescription = (response.items[i].snippet.description).substring(0,50);
-
-                //Variable to display first 50 char of channel title. Put under video?
-                //var channelTitle = (response.items[0].snippet.channelTitle).substring(0,50)
-            }*/
         }
     })
     .catch(function(error) {
