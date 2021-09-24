@@ -87,6 +87,12 @@ button {
     display: flex;
 }
 
+#search-results {
+    display: flex;
+    flex-direction: column;
+    visibility: hidden;
+}
+
 #header {
     background-color: #321325;
 }

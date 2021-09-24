@@ -3,11 +3,12 @@ var searchResultsEl = document.getElementById("search-results-container");
 var submitButtonEl = document.getElementById("submit-button");
 var returnButtonEl = document.getElementById("return-button");
 var lyricsResultEl = document.getElementById("lyrics-result");
+var showResultsEl = document.getElementById("search-results");
 var pastSearchIdList = JSON.parse(localStorage.getItem("songIdList")) || [];
 var pastSearchList = JSON.parse(localStorage.getItem("searchTerms")) || [];
 
 
-var youtubeApiKey = "AIzaSyCHWOWqNeHT92tJwuaXn-kmSt3EGp9ePic";
+var youtubeApiKey = "AIzaSyDUbNHIIC-j1KrC8msbrELWzxpm8nMCH08";
 
 // Function to get search term from input
 $("#submit-button").on("click", function() {
@@ -15,17 +16,13 @@ $("#submit-button").on("click", function() {
     var songSearch = document.querySelector("#songField").value;
     var searchTerm = artistSearch + " " + songSearch;
     var youtubeList = "https://youtube.googleapis.com/youtube/v3/search?part=snippet&maxResults=1&type=video&q=" + searchTerm  + "&key=" + youtubeApiKey;
-    
-    pastSearches(searchTerm.trim());
-    //var resultsContainerEl = document.querySelector("#results-container");
-    /*var clearThese = $("#search-results")[0];
-    console.log(clearThese);
 
-    //resultsContainerEl.innerHTML = "";
-    console.log(clearThese.hasChildNodes());
-    if(clearThese.hasChildNodes()) {
-        removeAllChildNodes(clearThese);
-    }*/
+    localStorage.setItem("searchTermPass", artistSearch + "-" + songSearch);
+    
+    
+    //var resultsContainerEl = document.querySelector("#results-container");
+    //var clearThese = $("#search-results");
+    //console.log(clearThese);
     
    // console.log($(resultsContainerEl));
     /*if($(resultsContainerEl)[0].children[0].attributes[0].textContent = "search-results") {
@@ -52,6 +49,9 @@ $("#submit-button").on("click", function() {
             var resultsButtonEl = document.getElementById("search-results");
             //searchResultsTitle.innerHTML = "Search Results:";
             //resultsEl.appendChild(searchResultsTitle);
+            //console.log(response.items[i].id.videoId);
+            var idToPass = response.items[0].id.videoId;
+            pastSearches(localStorage.getItem("searchTermPass"), idToPass);
 
             for (var i=0; i < response.items.length; i++) {
                 var title = (response.items[i].snippet.title);
@@ -81,16 +81,18 @@ $("#submit-button").on("click", function() {
 })
 
 //function to save search term to local storage
-function pastSearches(searchTerm){
-    
+function pastSearches(searchTerm, songId){
+    console.log(songId);
+
     var pastSearchEl = document.getElementById("past-searches-container");
     var pastSearchesArray = JSON.parse(localStorage.getItem("searchTerm")) || [];
     var artistSearch = document.querySelector("#artistField").value;
     var songSearch = document.querySelector("#songField").value;
     var searchObj = {
         artist: artistSearch, 
-        title: songSearch
-    }
+        title: songSearch,
+        id: songId
+    };
 
     if(!(pastSearchesArray.some((e => e.artist === searchObj.artist) && (e => e.title === searchObj.title)))) {
         if((searchObj.artist !== "") && (searchObj.title !== "")) {
@@ -98,7 +100,7 @@ function pastSearches(searchTerm){
             localStorage.setItem("searchTerm", JSON.stringify(pastSearchesArray));
             var pastSearchLi = document.createElement("button");
             pastSearchLi.classList.add("past-button");
-            pastSearchLi.setAttribute("id", artistSearch + "-" + songSearch);
+            pastSearchLi.setAttribute("id", artistSearch + "-" + songSearch + "-" + songId);
             pastSearchLi.innerHTML = searchTerm;
             pastSearchEl.appendChild(pastSearchLi);
         }
@@ -111,6 +113,8 @@ $("#past-searches-container").on("click", "button", function() {
     var idArray = $(this).attr("id").split("-")
     var artistName = idArray[0];
     var titleName = idArray[1];
+    var songId = idArray[2];
+    console.log($(this));
     
     for (var i=0; i < pastSearchesArray.length; i++) {
 
@@ -121,6 +125,7 @@ $("#past-searches-container").on("click", "button", function() {
         }
     }
     
+    localStorage.setItem("songId", songId);
     // var pastSearch = $(this).attr("id");
     // document.querySelector("#artistField").value = pastSearch;
     // document.querySelector("#submit-button").click();
@@ -170,17 +175,18 @@ function stopVideo() {
     player.stopVideo();
 }
 
-
 //Functions for CSS modifications
 function returnToSearch() {
     searchResultsEl.style.visibility = "hidden";
+    showResultsEl.style.visibility = "hidden";
 }
 
 function displaySearchResults() {
     searchResultsEl.style.visibility = "visible";
+    showResultsEl.style.visibility = "visible";
 }
 
-//Function to get andm return lyrics from MusixMatch
+//Function to get and return lyrics from MusixMatch
 function getLyrics(){
     var artistValue = document.querySelector("#artistField").value;
     var songValue = document.querySelector("#songField").value;
