@@ -41,10 +41,16 @@ $("#submit-button").on("click", function() {
     .then(function(response) {
         //console.log("YT", response);
         if (artistSearch == "" || songSearch == "") {
-            // replace alert with modal
+            var emptyFldError = document.getElementById('searchResultsHthree');
+            emptyFldError.textContent = "Please enter both an artist and a song title!";
+            emptyFldError.style.color = 'red';
+            emptyFldError.style.fontWeight = 'bolder';
+            emptyFldError.style.textAlign = 'center';
+            emptyFldError.style.textDecoration = 'underline red';
+            // replace alert with modal or something else
             // https://www.w3schools.com/howto/howto_css_modals.asp
 
-            alert("Please enter both an artist and a song title");
+            // alert("Please enter both an artist and a song title");
         }
         else {
             //var searchResultsTitle = document.createElement("h3");
