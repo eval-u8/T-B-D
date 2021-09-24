@@ -69,26 +69,45 @@ function pastSearches(searchTerm){
     
     var pastSearchEl = document.querySelector("#past-searches-container");
     var pastSearchesArray = JSON.parse(localStorage.getItem("searchTerm")) || [];
-
-    if(!(pastSearchesArray.includes(searchTerm))) {
-        pastSearchesArray.push(searchTerm);
-
+    var artistSearch = document.querySelector("#artistField").value;
+    var songSearch = document.querySelector("#songField").value;
+    var searchObj = {
+        artist: artistSearch, 
+        title: songSearch
+    }
+    if(!(pastSearchesArray.includes(searchObj))) {
+        pastSearchesArray.push(searchObj);
+        localStorage.setItem("searchTerm", JSON.stringify(pastSearchesArray));
         var pastSearchLi = document.createElement("button");
         pastSearchLi.classList.add("past-button");
-        pastSearchLi.setAttribute("id", searchTerm)
+        pastSearchLi.setAttribute("id", artistSearch + "-" + songSearch);
         pastSearchLi.innerHTML = searchTerm;
         pastSearchEl.appendChild(pastSearchLi);
     }
 
-    localStorage.setItem("searchTerm", JSON.stringify(pastSearchesArray));
+    // localStorage.setItem("searchTerm", JSON.stringify(searchObj));
 
 }
 
 //function to click on past search and display results
 $("#past-searches-container").on("click", "button", function() {
-    var pastSearch = $(this).attr("id");
-    document.querySelector("#artistField").value = pastSearch;
-    document.querySelector("#submit-button").click();
+    var pastSearchesArray = JSON.parse(localStorage.getItem("searchTerm")) || [];
+    var idArray = $(this).attr("id").split("-")
+    var artistName = idArray[0];
+    var titleName = idArray[1];
+    
+    for (var i=0; i < pastSearchesArray.length; i++) {
+
+        if (artistName === pastSearchesArray[i].artist && titleName === pastSearchesArray[i].title) {
+            document.querySelector("#artistField").value = artistName;
+            document.querySelector("#songField").value =  titleName;
+            document.querySelector("#submit-button").click();
+        }
+    }
+    
+    // var pastSearch = $(this).attr("id");
+    // document.querySelector("#artistField").value = pastSearch;
+    // document.querySelector("#submit-button").click();
 });
 
 //function to click result button to see youtube video and lyrics
@@ -145,8 +164,6 @@ function stopVideo() {
 // }
 
 function displaySearchResults() {
-    // var resultsContainerEl = document.querySelector("#search-results");
-    // resultsContainerEl.innerHTML = "";
     searchResultsEl.style.visibility = "visible";
 }
 
