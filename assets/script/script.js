@@ -1,4 +1,3 @@
-var testDivEl = document.getElementById("player");
 var searchResultsEl = document.getElementById("search-results-container");
 var submitButtonEl = document.getElementById("submit-button");
 var returnButtonEl = document.getElementById("return-button");
@@ -6,9 +5,14 @@ var lyricsResultEl = document.getElementById("lyrics-result");
 var showResultsEl = document.getElementById("search-results");
 var pastSearchIdList = JSON.parse(localStorage.getItem("songIdList")) || [];
 var pastSearchList = JSON.parse(localStorage.getItem("searchTerms")) || [];
+var player;
+
+var fatId = "queen-fat bottom-VMnjF1O4eH0";
+
+var mockResponse = {"kind":"youtube#searchListResponse","etag":"g-kFa1lNH68H6Ttht2jmkgMJg3k","nextPageToken":"CAEQAA","regionCode":"US","pageInfo":{"totalResults":1000000,"resultsPerPage":1},"items":[{"kind":"youtube#searchResult","etag":"enGOs3s6Lm3RSB55akzDLfTp1Jc","id":{"kind":"youtube#video","videoId":"fJ9rUzIMcZQ"},"snippet":{"publishedAt":"2008-08-01T11:06:40Z","channelId":"UCiMhD4jzUqG-IgPzUmmytRQ","title":"Queen – Bohemian Rhapsody (Official Video Remastered)","description":"REMASTERED IN HD TO CELEBRATE ONE BILLION VIEWS! Taken from A Night At The Opera, 1975. Click here to buy the DVD with this video at the Official ...","thumbnails":{"default":{"url":"https://i.ytimg.com/vi/fJ9rUzIMcZQ/default.jpg","width":120,"height":90},"medium":{"url":"https://i.ytimg.com/vi/fJ9rUzIMcZQ/mqdefault.jpg","width":320,"height":180},"high":{"url":"https://i.ytimg.com/vi/fJ9rUzIMcZQ/hqdefault.jpg","width":480,"height":360}},"channelTitle":"Queen Official","liveBroadcastContent":"none","publishTime":"2008-08-01T11:06:40Z"}}]}
 
 
-var youtubeApiKey = "AIzaSyDUbNHIIC-j1KrC8msbrELWzxpm8nMCH08";
+var youtubeApiKey = "AIzaSyAo-97J_Rejjd9W6MvlsKiCW9hptlDpPQE";
 
 // Function to get search term from input
 $("#submit-button").on("click", function() {
@@ -36,7 +40,7 @@ $("#submit-button").on("click", function() {
         return response.json();
     })
     .then(function(response) {
-        //console.log("YT", response);
+        console.log("YT", JSON.stringify(response));
         if (artistSearch == "" || songSearch == "") {
             // replace alert with modal
             // https://www.w3schools.com/howto/howto_css_modals.asp
@@ -77,8 +81,50 @@ $("#submit-button").on("click", function() {
         console.log(error);
     })
 
+    console.log(mockResponse);
+
+    loadData(mockResponse);
+
     displaySearchResults();
 })
+
+function loadData(data) {
+    /*if (artistSearch == "" || songSearch == "") {
+        // replace alert with modal
+        // https://www.w3schools.com/howto/howto_css_modals.asp
+
+        alert("Please enter both an artist and a song title");
+    }*/
+
+    //var searchResultsTitle = document.createElement("h3");
+    //var resultsEl = document.querySelector("#results-container");
+    var resultsButtonEl = document.getElementById("search-results");
+    //searchResultsTitle.innerHTML = "Search Results:";
+    //resultsEl.appendChild(searchResultsTitle);
+    //console.log(response.items[i].id.videoId);
+    var idToPass = data.items[0].id.videoId;
+    pastSearches(localStorage.getItem("searchTermPass"), idToPass);
+
+    var videos = data.items;
+
+    for (var i=0; i < videos.length; i++) {
+        var title = videos[i].snippet.title;
+        var videoId = videos[i].id.videoId;
+        var resultsButton = document.createElement("button");
+        resultsButton.className = "resultsButton";
+        // add css class
+        // resultsButton.classList.add("");
+        resultsButton.innerHTML = title;
+        resultsButton.id = videoId;
+        resultsButtonEl.appendChild(resultsButton);
+        //Variable to display first 50 char of video description. Put under video?
+        //var videoDescription = (response.items[i].snippet.description).substring(0,50);
+
+        //Variable to display first 50 char of channel title. Put under video?
+        //var channelTitle = (response.items[0].snippet.channelTitle).substring(0,50)
+    }
+
+}
 
 //function to save search term to local storage
 function pastSearches(searchTerm, songId){
@@ -94,13 +140,15 @@ function pastSearches(searchTerm, songId){
         id: songId
     };
 
+    console.log(searchObj);
+
     if(!(pastSearchesArray.some((e => e.artist === searchObj.artist) && (e => e.title === searchObj.title)))) {
         if((searchObj.artist !== "") && (searchObj.title !== "")) {
             pastSearchesArray.push(searchObj);
             localStorage.setItem("searchTerm", JSON.stringify(pastSearchesArray));
             var pastSearchLi = document.createElement("button");
             pastSearchLi.classList.add("past-button");
-            pastSearchLi.setAttribute("id", artistSearch + "-" + songSearch + "-" + songId);
+            pastSearchLi.setAttribute("id", searchObj.artist + "-" + searchObj.title + "-" + searchObj.id);
             pastSearchLi.innerHTML = searchTerm;
             pastSearchEl.appendChild(pastSearchLi);
         }
@@ -110,11 +158,12 @@ function pastSearches(searchTerm, songId){
 //function to click on past search and display results
 $("#past-searches-container").on("click", "button", function() {
     var pastSearchesArray = JSON.parse(localStorage.getItem("searchTerm")) || [];
-    var idArray = $(this).attr("id").split("-")
+    console.log($(this));
+    var idArray = $(this).attr("id").split("-");
     var artistName = idArray[0];
     var titleName = idArray[1];
     var songId = idArray[2];
-    console.log($(this));
+    console.log(songId);
     
     for (var i=0; i < pastSearchesArray.length; i++) {
 
@@ -133,6 +182,7 @@ $("#past-searches-container").on("click", "button", function() {
 
 //function to click result button to see youtube video and lyrics
 $("#results-container").on("click", "button", function() {
+    console.log($(this));
     var videoId = $(this).attr("id");
     getLyrics();
     localStorage.setItem("songId", videoId);
@@ -141,9 +191,25 @@ $("#results-container").on("click", "button", function() {
 
 //Additional functions for the YoutubeAPI to work as intended
 $("#results-container").on("click", "button", function onYouTubeIframeAPIReady() {
-    var songId = localStorage.getItem("songId");
+    if(player) {
+        player.destroy();
+    }
+
+    var songId = "";
+
+    if($(this).hasClass("resultsButton")) {
+        songId = $(this).attr("id");
+    } else {
+        var idPieces = $(this).attr("id")
+        console.log(idPieces);
+        var idArray = idPieces.split("-");
+        songId = idArray[2];
+    }
+
+    localStorage.setItem("videoIdToPlay", songId);
+
     if(songId !== undefined) {
-        var player;
+  
         player = new YT.Player('player', {
           height: '390',
           width: '640',
@@ -160,7 +226,11 @@ $("#results-container").on("click", "button", function onYouTubeIframeAPIReady()
 });
 
 function onPlayerReady(event) {
-    event.target.playVideo();
+    console.log(localStorage.getItem("videoIdToPlay"));
+
+    var videoId = localStorage.getItem("videoIdToPlay");
+
+    event.target.loadVideoById(videoId);
 }
 
 function onPlayerStateChange(event) {
@@ -268,7 +338,7 @@ function loadLocalStorage(){
     for (var j=0; j < storedSearches.length; j++) {
         var pastSearchLi = document.createElement("button");
         pastSearchLi.classList.add("past-button");
-        pastSearchLi.setAttribute("id", storedSearches[j].artist + "-" + storedSearches[j].title)
+        pastSearchLi.setAttribute("id", storedSearches[j].artist + "-" + storedSearches[j].title + "-" + storedSearches[j].id)
         pastSearchLi.innerHTML = storedSearches[j].artist + "-" + storedSearches[j].title;
         pastSearchEl.appendChild(pastSearchLi);
     }
