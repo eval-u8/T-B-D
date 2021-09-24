@@ -133,3 +133,39 @@ button {
     font-size: 20px;
     padding-left: 0;
 }
+
+/* Larger than mobile screen */
+@media (min-width: 20rem) and (max-width: 767px) { 
+    .container {
+        text-align: center;
+    }
+
+    #search-container form, #past-searches-container button{
+        margin: 0 auto;
+    }
+
+    /* #song-search, #artist-search {
+        margin: 0 auto;
+    } */
+ }
+
+/* Larger than tablet screen */
+@media (min-width: 768px) {
+    .container{
+        /* background-color: red; */
+    }
+
+    .column.column-67 {
+        flex: none;
+        max-width: none;
+        width: 100%;
+    }
+    #past-searches-container {
+        width: 100%;
+        margin: 0 auto;
+ }
+
+/* Larger than desktop screen */
+@media (min-width: 120.0rem) { 
+
+ }
