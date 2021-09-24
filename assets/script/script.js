@@ -40,7 +40,6 @@ $("#submit-button").on("click", function() {
         return response.json();
     })
     .then(function(response) {
-        console.log("YT", JSON.stringify(response));
         if (artistSearch == "" || songSearch == "") {
             // replace alert with modal
             // https://www.w3schools.com/howto/howto_css_modals.asp
@@ -50,14 +49,25 @@ $("#submit-button").on("click", function() {
         else {
             //var searchResultsTitle = document.createElement("h3");
             //var resultsEl = document.querySelector("#results-container");
-            var resultsButtonEl = document.getElementById("search-results");
+            //var resultsButtonEl = document.getElementById("search-results");
             //searchResultsTitle.innerHTML = "Search Results:";
             //resultsEl.appendChild(searchResultsTitle);
-            //console.log(response.items[i].id.videoId);
+            console.log(response);
             var idToPass = response.items[0].id.videoId;
             pastSearches(localStorage.getItem("searchTermPass"), idToPass);
 
-            for (var i=0; i < response.items.length; i++) {
+            if (artistSearch == "" || songSearch == "") {
+                // replace alert with modal
+                // https://www.w3schools.com/howto/howto_css_modals.asp
+        
+                alert("Please enter both an artist and a song title");
+            } else {
+                loadData(response);
+            }
+
+            
+
+            /*for (var i=0; i < response.items.length; i++) {
                 var title = (response.items[i].snippet.title);
                 var videoId = response.items[i].id.videoId;
                 var resultsButton = document.createElement("button");
@@ -74,34 +84,20 @@ $("#submit-button").on("click", function() {
 
                 //Variable to display first 50 char of channel title. Put under video?
                 //var channelTitle = (response.items[0].snippet.channelTitle).substring(0,50)
-            }
+            }*/
         }
     })
     .catch(function(error) {
         console.log(error);
     })
 
-    console.log(mockResponse);
-
-    loadData(mockResponse);
-
     displaySearchResults();
 })
 
 function loadData(data) {
-    /*if (artistSearch == "" || songSearch == "") {
-        // replace alert with modal
-        // https://www.w3schools.com/howto/howto_css_modals.asp
-
-        alert("Please enter both an artist and a song title");
-    }*/
-
-    //var searchResultsTitle = document.createElement("h3");
-    //var resultsEl = document.querySelector("#results-container");
+    console.log("we are here");
     var resultsButtonEl = document.getElementById("search-results");
-    //searchResultsTitle.innerHTML = "Search Results:";
-    //resultsEl.appendChild(searchResultsTitle);
-    //console.log(response.items[i].id.videoId);
+
     var idToPass = data.items[0].id.videoId;
     pastSearches(localStorage.getItem("searchTermPass"), idToPass);
 
