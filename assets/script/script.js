@@ -125,9 +125,9 @@ function stopVideo() {
 
 
 //Functions for CSS modifications
-function returnToSearch() {
-    searchResultsEl.style.visibility = "hidden";
-}
+// function returnToSearch() {
+//     searchResultsEl.style.visibility = "hidden";
+// }
 
 function displaySearchResults() {
     searchResultsEl.style.visibility = "visible";
@@ -208,9 +208,14 @@ function loadLocalStorage(){
 
 submitButtonEl.addEventListener("click", displaySearchResults);
 // submitButtonEl.addEventListener("click", clearSearchValues);
-returnButtonEl.addEventListener("click", returnToSearch);
+// returnButtonEl.addEventListener("click", returnToSearch);
 
 //disabled function to save API key from running out
 submitButtonEl.addEventListener("click", getLyrics);
 
 loadLocalStorage();
+
+function reloadPage() {
+    document.location.reload();
+}
+returnButtonEl.addEventListener("click", reloadPage);
