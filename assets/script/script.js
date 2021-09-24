@@ -2,7 +2,7 @@ var testDivEl = document.getElementById("player");
 var searchResultsEl = document.getElementById("search-results-container");
 var submitButtonEl = document.getElementById("submit-button");
 var returnButtonEl = document.getElementById("return-button");
-var lyricsResultEl = document.getElementById("#lyrics-result");
+var lyricsResultEl = document.getElementById("lyrics-result");
 var pastSearchIdList = JSON.parse(localStorage.getItem("songIdList")) || [];
 var pastSearchList = JSON.parse(localStorage.getItem("searchTerms")) || [];
 
@@ -14,10 +14,12 @@ $("#submit-button").on("click", function() {
     var artistSearch = document.querySelector("#artistField").value;
     var songSearch = document.querySelector("#songField").value;
     var searchTerm = artistSearch + " " + songSearch;
-    console.log(searchTerm);
     var youtubeList = "https://youtube.googleapis.com/youtube/v3/search?part=snippet&maxResults=1&type=video&q=" + searchTerm  + "&key=" + youtubeApiKey;
     
     pastSearches(searchTerm.trim());
+    var resultsContainerEl = document.querySelector("#results-container");
+
+    resultsContainerEl.innerHTML = "";
 
     fetch(youtubeList)
     .then(function(response) {
@@ -25,27 +27,40 @@ $("#submit-button").on("click", function() {
     })
 
     .then(function(response) {
-                
-        for (var i=0; i < response.items.length; i++) {
-            var title = response.items[i].snippet.title;
-            var videoId = response.items[i].id.videoId;
-            var resultsEl = document.querySelector("#results-container");
-            var resultsButton = document.createElement("button");
+        if (artistSearch == "" || songSearch == "") {
+            // replace alert with modal
+            // https://www.w3schools.com/howto/howto_css_modals.asp
 
-            resultsButton.id = title;
-            resultsButton.className = "resultsButton"
-            // add css class
-            // resultsButton.classList.add("");
-            resultsButton.textContent = title;
-            resultsButton.id = videoId;
-            resultsEl.appendChild(resultsButton);
+            alert("Please enter both an artist and a song title");
+        }
+        else {
+            var searchResultsTitle = document.createElement("h3");
+            var resultsEl = document.querySelector("#results-container");
+
+            searchResultsTitle.innerHTML = "Search Results:";
+            resultsEl.appendChild(searchResultsTitle);
+
+            for (var i=0; i < response.items.length; i++) {
+                var title = response.items[i].snippet.title;
+                var videoId = response.items[i].id.videoId;
+                var resultsEl = document.querySelector("#results-container");
+                var resultsButton = document.createElement("button");
+
+                resultsButton.id = title;
+                resultsButton.className = "resultsButton"
+                // add css class
+                // resultsButton.classList.add("");
+                resultsButton.textContent = title;
+                resultsButton.id = videoId;
+                resultsEl.appendChild(resultsButton);
+            }
         }
     })
     .catch(function(error) {
         console.log(error);
     })
 
-    
+    displaySearchResults();
     
 })
 
@@ -53,41 +68,46 @@ $("#submit-button").on("click", function() {
 function pastSearches(searchTerm){
     
     var pastSearchEl = document.querySelector("#past-searches-container");
-
-    //pastSearchEl.innerHTML = "";
-
     var pastSearchesArray = JSON.parse(localStorage.getItem("searchTerm")) || [];
-
-    if(!(pastSearchesArray.includes(searchTerm))) {
-        console.log("before", pastSearchesArray);
-        pastSearchesArray.push(searchTerm);
-        console.log("after", pastSearchesArray);
-
+    var artistSearch = document.querySelector("#artistField").value;
+    var songSearch = document.querySelector("#songField").value;
+    var searchObj = {
+        artist: artistSearch, 
+        title: songSearch
+    }
+    if(!(pastSearchesArray.includes(searchObj))) {
+        pastSearchesArray.push(searchObj);
+        localStorage.setItem("searchTerm", JSON.stringify(pastSearchesArray));
         var pastSearchLi = document.createElement("button");
         pastSearchLi.classList.add("past-button");
-        pastSearchLi.setAttribute("id", searchTerm)
+        pastSearchLi.setAttribute("id", artistSearch + "-" + songSearch);
         pastSearchLi.innerHTML = searchTerm;
         pastSearchEl.appendChild(pastSearchLi);
     }
 
-    /*for(var i = 0; i < pastSearchesArray.length; i++) { 
-        console.log(pastSearchesArray[i]);
-        pastSearchesArray[i].trim();
-        console.log(pastSearchesArray[i]);
-    }*/
-
-    localStorage.setItem("searchTerm", JSON.stringify(pastSearchesArray));
-
-    var buttonArray = JSON.parse(localStorage.getItem("searchTerm")) || [];
+    // localStorage.setItem("searchTerm", JSON.stringify(searchObj));
 
 }
 
 //function to click on past search and display results
 $("#past-searches-container").on("click", "button", function() {
-    var pastSearch = $(this).attr("id");
-    console.log(pastSearch);
-    document.querySelector("#artistField").value = pastSearch;
-    document.querySelector("#submit-button").click();
+    var pastSearchesArray = JSON.parse(localStorage.getItem("searchTerm")) || [];
+    var idArray = $(this).attr("id").split("-")
+    var artistName = idArray[0];
+    var titleName = idArray[1];
+    
+    for (var i=0; i < pastSearchesArray.length; i++) {
+
+        if (artistName === pastSearchesArray[i].artist && titleName === pastSearchesArray[i].title) {
+            document.querySelector("#artistField").value = artistName;
+            document.querySelector("#songField").value =  titleName;
+            document.querySelector("#submit-button").click();
+        }
+    }
+    
+    // var pastSearch = $(this).attr("id");
+    // document.querySelector("#artistField").value = pastSearch;
+    // document.querySelector("#submit-button").click();
 });
 
 //function to click result button to see youtube video and lyrics
@@ -96,17 +116,14 @@ $("#results-container").on("click", "button", function() {
     var titleEl = document.createElement("div");
     var descriptionEl = document.createElement("div");
 
-    console.log(videoId);
-
+    getLyrics();
     localStorage.setItem("songId", videoId);
-    onYouTubeIframeAPIReady();
 })
 
 
 //Additional functions for the YoutubeAPI to work as intended
-function onYouTubeIframeAPIReady() {
+$("#results-container").on("click", "button", function onYouTubeIframeAPIReady() {
     var songId = localStorage.getItem("songId");
-
     if(songId !== undefined) {
         var player;
         player = new YT.Player('player', {
@@ -122,7 +139,7 @@ function onYouTubeIframeAPIReady() {
           }
         });
     }
-}
+});
 
 function onPlayerReady(event) {
     event.target.playVideo();
@@ -142,9 +159,9 @@ function stopVideo() {
 
 
 //Functions for CSS modifications
-function returnToSearch() {
-    searchResultsEl.style.visibility = "hidden";
-}
+// function returnToSearch() {
+//     searchResultsEl.style.visibility = "hidden";
+// }
 
 function displaySearchResults() {
     searchResultsEl.style.visibility = "visible";
@@ -154,16 +171,14 @@ function getLyrics(){
     var artistValue = document.querySelector("#artistField").value;
     var songValue = document.querySelector("#songField").value;
 
-
     var apiKey = "https://api.musixmatch.com/ws/1.1/track.search?q_artist="+ artistValue + "&q_track=" + songValue + "&page_size=3&page=1&s_track_rating=desc&apikey=b821d7d8d4a306e5ec045464dcd5ed20";
+
 
     fetch(apiKey)
     .then(function(response) {
         return response.json();
     })
     .then(function(response) {
-        console.log(response);
-        console.log(response.message.body.track_list[0].track.commontrack_id);
 
         var songId = "https://api.musixmatch.com/ws/1.1/track.lyrics.get?track_id="+ response.message.body.track_list[0].track.track_id + 
                         "&apikey=b821d7d8d4a306e5ec045464dcd5ed20";
@@ -174,12 +189,14 @@ function getLyrics(){
         return songIdResponse.json();
     })
     .then(function(songIdResponse) {
-        console.log(songIdResponse);
 
         var copyRightAllowed = songIdResponse.message.body.lyrics.lyrics_copyright;
         var lyrics = songIdResponse.message.body.lyrics.lyrics_body;
         var lyricParagraph = document.createElement("p")
-
+        
+        // var lyricsDiv = document.querySelector("#lyrics-result")
+        
+        // lyricsDiv.innerHTML = ""
 
 
         //If copyright law allows any of the lyrics to be reprinted, there are printed here
@@ -192,7 +209,7 @@ function getLyrics(){
             console.log(lyrics);
             lyricParagraph.classList.add("lyrics-text");
             lyricParagraph.innerText = lyrics;
-            searchResultsEl.appendChild(lyricParagraph);
+            lyricsResultEl.appendChild(lyricParagraph);
         }
 
     })
@@ -212,7 +229,6 @@ function loadLocalStorage(){
     var pastSearchEl = document.querySelector("#past-searches-container")
 
     var storedSearches = JSON.parse(localStorage.getItem("searchTerm")) || [];
-    console.log(storedSearches);
     
     for (var j=0; j < storedSearches.length; j++) {
         var pastSearchLi = document.createElement("button");
@@ -224,11 +240,11 @@ function loadLocalStorage(){
 }
 //Do not use function unless necessary
 
-submitButtonEl.addEventListener("click", displaySearchResults);
-submitButtonEl.addEventListener("click", clearSearchValues);
-returnButtonEl.addEventListener("click", returnToSearch);
-
-//disabled function to save API key from running out
-submitButtonEl.addEventListener("click", getLyrics);
+// submitButtonEl.addEventListener("click", displaySearchResults);
 
 loadLocalStorage();
+
+function reloadPage() {
+    document.location.reload();
+}
+returnButtonEl.addEventListener("click", reloadPage);
