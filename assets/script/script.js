@@ -229,7 +229,8 @@ function getLyrics(){
         if(copyRightAllowed == "Unfortunately we're not authorized to show these lyrics.") {
             //Print error message here
             lyricParagraph.innerText = "Copyright law does not allow these lyrics to be printed";
-            console.log("Copyright law does not allow these lyrics to be printed");
+            lyricsResultEl.appendChild(lyricParagraph);
+            console.log("Copyright law does not allow these lyrics to be printed :(");
         } else {
             //Print lyrics to page here
             console.log(lyrics);
