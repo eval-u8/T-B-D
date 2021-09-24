@@ -55,6 +55,13 @@ body {
     height: 50px;
 }
 
+#submit-button {
+    background-color: #321325;
+    color: #EAFDF8;
+    font-weight: bold;
+    font-size: 13px;
+}
+
 #search-container {
     margin-top: 40px;
 }
