@@ -75,7 +75,8 @@ function pastSearches(searchTerm){
         artist: artistSearch, 
         title: songSearch
     }
-    if(!(pastSearchesArray.includes(searchObj))) {
+
+    if(!(pastSearchesArray.some((e => e.artist === searchObj.artist)&& (e => e.title === searchObj.title)))) {
         pastSearchesArray.push(searchObj);
         localStorage.setItem("searchTerm", JSON.stringify(pastSearchesArray));
         var pastSearchLi = document.createElement("button");
@@ -84,6 +85,29 @@ function pastSearches(searchTerm){
         pastSearchLi.innerHTML = searchTerm;
         pastSearchEl.appendChild(pastSearchLi);
     }
+
+    /*for(var j = 0; j < pastSearchesArray.length; j++) {
+        if(!(pastSearchesArray[j].artist.includes(searchObj.artist) && pastSearchesArray[j].title.includes(searchObj.title))) {
+            pastSearchesArray.push(searchObj);
+            localStorage.setItem("searchTerm", JSON.stringify(pastSearchesArray));
+            var pastSearchLi = document.createElement("button");
+            pastSearchLi.classList.add("past-button");
+            pastSearchLi.setAttribute("id", artistSearch + "-" + songSearch);
+            pastSearchLi.innerHTML = searchTerm;
+            pastSearchEl.appendChild(pastSearchLi);
+        }
+    }*/
+
+    /*
+    if(!(pastSearchesArray.includes(searchObj))) {
+        pastSearchesArray.push(searchObj);
+        localStorage.setItem("searchTerm", JSON.stringify(pastSearchesArray));
+        var pastSearchLi = document.createElement("button");
+        pastSearchLi.classList.add("past-button");
+        pastSearchLi.setAttribute("id", artistSearch + "-" + songSearch);
+        pastSearchLi.innerHTML = searchTerm;
+        pastSearchEl.appendChild(pastSearchLi);
+    }*/
 
     // localStorage.setItem("searchTerm", JSON.stringify(searchObj));
 
@@ -167,6 +191,7 @@ function displaySearchResults() {
     searchResultsEl.style.visibility = "visible";
 }
 
+//Function to get andm return lyrics from MusixMatch
 function getLyrics(){
     var artistValue = document.querySelector("#artistField").value;
     var songValue = document.querySelector("#songField").value;
@@ -203,6 +228,7 @@ function getLyrics(){
         //Songs with copyright issues do not print any lyrics but an error message instead
         if(copyRightAllowed == "Unfortunately we're not authorized to show these lyrics.") {
             //Print error message here
+            lyricParagraph.innerText = "Copyright law does not allow these lyrics to be printed";
             console.log("Copyright law does not allow these lyrics to be printed");
         } else {
             //Print lyrics to page here
@@ -215,9 +241,9 @@ function getLyrics(){
     })
     .catch(function(error) {
         console.log(error);
+        var errorParagraph = document.createElement("p");
+        errorParagraph.innerText = "We cannot find your lyrics :(";
     })
-
-
 }
 
 function clearSearchValues() {
@@ -250,4 +276,5 @@ loadLocalStorage();
 function reloadPage() {
     document.location.reload();
 }
+
 returnButtonEl.addEventListener("click", reloadPage);
