@@ -20,7 +20,9 @@ $("#submit-button").on("click", function() {
     var youtubeList = "https://youtube.googleapis.com/youtube/v3/search?part=snippet&maxResults=1&type=video&q=" + searchTerm  + "&key=" + youtubeApiKey;
 
     localStorage.setItem("searchTermPass", artistSearch + "-" + songSearch);
-    
+
+
+    showResultsEl.innerHTML = "";
     
     //var resultsContainerEl = document.querySelector("#results-container");
     //var clearThese = $("#search-results");
@@ -48,14 +50,8 @@ $("#submit-button").on("click", function() {
             var idToPass = response.items[0].id.videoId;
             pastSearches(localStorage.getItem("searchTermPass"), idToPass);
 
-            if (artistSearch == "" || songSearch == "") {
-                // replace alert with modal
-                // https://www.w3schools.com/howto/howto_css_modals.asp
-        
-                alert("Please enter both an artist and a song title");
-            } else {
-                loadData(response);
-            }
+            loadData(response);
+            
         }
     })
     .catch(function(error) {
@@ -230,7 +226,7 @@ function getLyrics(){
 
     var apiKey = "https://api.musixmatch.com/ws/1.1/track.search?q_artist="+ artistValue + "&q_track=" + songValue + "&page_size=3&page=1&s_track_rating=desc&apikey=b821d7d8d4a306e5ec045464dcd5ed20";
 
-
+    //Call to MusixMatch API based on user artist and song inputs
     fetch(apiKey)
     .then(function(response) {
         return response.json();
@@ -238,32 +234,26 @@ function getLyrics(){
     .then(function(response) {
         //console.log(response);
 
-        var hasLyrics = response.message.body.track_list[0].track.has_lyrics;
+        var responseData = response.message.body;
+        
+        //Retrieves track ID and matches another fetch request to get the lyrics
+        var songId = "https://api.musixmatch.com/ws/1.1/track.lyrics.get?track_id="+ responseData.track_list[0].track.track_id + "&apikey=b821d7d8d4a306e5ec045464dcd5ed20";
 
-        var songId = "https://api.musixmatch.com/ws/1.1/track.lyrics.get?track_id="+ response.message.body.track_list[0].track.track_id + 
-                        "&apikey=b821d7d8d4a306e5ec045464dcd5ed20";
-
-        if(hasLyrics === 1) {
-            return fetch(songId);
-        } else {
-            var noLyricsParagraph = document.createElement("p");
-            noLyricsParagraph.innerText = "We cannot find your lyrics :(";
-            lyricsResultEl.appendChild(noLyricsParagraph);
-        }
+        return fetch(songId);
         
     })
     .then(function(songIdResponse) {
         return songIdResponse.json();
     })
     .then(function(songIdResponse) {
+
+        var songIdData = songIdResponse.message.body
         
-        var copyRightAllowed = songIdResponse.message.body.lyrics.lyrics_copyright;
-        var lyrics = songIdResponse.message.body.lyrics.lyrics_body;
+        var copyRightAllowed = songIdData.lyrics.lyrics_copyright;
+        var lyrics = songIdData.lyrics.lyrics_body;
         var lyricParagraph = document.createElement("p");
         
-        // var lyricsDiv = document.querySelector("#lyrics-result")
-        
-        // lyricsDiv.innerHTML = ""
+        clearLyrics();
 
 
         //If copyright law allows any of the lyrics to be reprinted, there are printed here
@@ -272,7 +262,6 @@ function getLyrics(){
             //Print error message here
             lyricParagraph.innerText = "Copyright law does not allow these lyrics to be printed";
             lyricsResultEl.appendChild(lyricParagraph);
-            console.log("Copyright law does not allow these lyrics to be printed :(");
         } else {
             //Print lyrics to page here
             console.log(lyrics);
@@ -280,13 +269,16 @@ function getLyrics(){
             lyricParagraph.innerText = lyrics;
             lyricsResultEl.appendChild(lyricParagraph);
         }
-
     })
+
+    //Catch function will exectute if there are no lyrics on MusixMatch for the search term or if an error occurred
     .catch(function(error) {
         console.log(error);
-        var errorParagraph = document.createElement("p");
-        errorParagraph.innerText = "We cannot find your lyrics :(";
-        lyricsResultEl.appendChild(errorParagraph);
+        clearLyrics();
+        var noLyricsParagraph = document.createElement("p");
+        noLyricsParagraph.classList.add("lyrics-text");
+        noLyricsParagraph.innerText = "We cannot find your lyrics :(";
+        lyricsResultEl.appendChild(noLyricsParagraph);
     })
 }
 
@@ -296,11 +288,11 @@ function clearSearchValues() {
 }
 
 function loadLocalStorage(){
-    var pastSearchEl = document.querySelector("#past-searches-container")
+    var pastSearchEl = document.querySelector("#past-searches-container");
 
     var storedSearches = JSON.parse(localStorage.getItem("searchTerm")) || [];
 
-    console.log(storedSearches);
+    //console.log(storedSearches);
     
     for (var j=0; j < storedSearches.length; j++) {
         var pastSearchLi = document.createElement("button");
@@ -319,6 +311,10 @@ loadLocalStorage();
 
 function reloadPage() {
     document.location.reload();
+}
+
+function clearLyrics(){
+    lyricsResultEl.innerHTML = "";
 }
 
 /*function removeAllChildNodes(container) {
