@@ -150,14 +150,26 @@ button {
         text-align: center;
     }
 
-    #search-container form, #past-searches-container button{
+    #past-searches-container {
+        align-items: center;
+    }
+
+    #search-container {
+        align-items: center;
+    }
+
+    #search-container form{
         margin: 0 auto;
+    }
+
+    .past-button {
+        margin-bottom: 5px;
     }
 
     /* #song-search, #artist-search {
         margin: 0 auto;
     } */
- }
+}
 
 /* Larger than tablet screen */
 @media (min-width: 768px) {
@@ -173,9 +185,9 @@ button {
     #past-searches-container {
         width: 100%;
         margin: 0 auto;
- }
+}
 
 /* Larger than desktop screen */
 @media (min-width: 120.0rem) { 
 
- }
+}
