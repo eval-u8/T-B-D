@@ -1,3 +1,6 @@
+// Function to make sure the script will wait for page to load.
+$(document).ready(function () {
+
 //Global variables
 var searchResultsEl = document.getElementById("search-results-container");
 var submitButtonEl = document.getElementById("submit-button");
@@ -7,6 +10,7 @@ var showResultsEl = document.getElementById("search-results");
 var pastSearchIdList = JSON.parse(localStorage.getItem("songIdList")) || [];
 var pastSearchList = JSON.parse(localStorage.getItem("searchTerms")) || [];
 var player;
+var searchResultsHeadClone = $("#searchResultsHthree").clone();
 
 //var mockResponse = {"kind":"youtube#searchListResponse","etag":"g-kFa1lNH68H6Ttht2jmkgMJg3k","nextPageToken":"CAEQAA","regionCode":"US","pageInfo":{"totalResults":1000000,"resultsPerPage":1},"items":[{"kind":"youtube#searchResult","etag":"enGOs3s6Lm3RSB55akzDLfTp1Jc","id":{"kind":"youtube#video","videoId":"fJ9rUzIMcZQ"},"snippet":{"publishedAt":"2008-08-01T11:06:40Z","channelId":"UCiMhD4jzUqG-IgPzUmmytRQ","title":"Queen – Bohemian Rhapsody (Official Video Remastered)","description":"REMASTERED IN HD TO CELEBRATE ONE BILLION VIEWS! Taken from A Night At The Opera, 1975. Click here to buy the DVD with this video at the Official ...","thumbnails":{"default":{"url":"https://i.ytimg.com/vi/fJ9rUzIMcZQ/default.jpg","width":120,"height":90},"medium":{"url":"https://i.ytimg.com/vi/fJ9rUzIMcZQ/mqdefault.jpg","width":320,"height":180},"high":{"url":"https://i.ytimg.com/vi/fJ9rUzIMcZQ/hqdefault.jpg","width":480,"height":360}},"channelTitle":"Queen Official","liveBroadcastContent":"none","publishTime":"2008-08-01T11:06:40Z"}}]}
 
@@ -41,9 +45,11 @@ $("#submit-button").on("click", function() {
             // alert("Please enter both an artist and a song title");
         }
         else {
+            $("#searchResultsHthree").replaceWith(searchResultsHeadClone.clone());
             console.log(response);
             var idToPass = response.items[0].id.videoId;
             pastSearches(localStorage.getItem("searchTermPass"), idToPass);
+            
 
             loadData(response);
         }
@@ -295,3 +301,5 @@ function clearLyrics(){
 submitButtonEl.addEventListener("click", displaySearchResults);
 returnButtonEl.addEventListener("click", reloadPage);
 loadLocalStorage();
+
+});
