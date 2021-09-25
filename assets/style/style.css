@@ -150,16 +150,33 @@ button {
         text-align: center;
     }
 
+    #past-searches-container {
+        align-items: center;
+    }
+
+    #search-container {
+        align-items: center;
+    }
+
+    #search-container form{
+        margin: 0 auto;
+    }
+
     #search-container form, #search-results button, #past-searches-container button {
         width: auto;
         padding: 0.5em 0.5em;
         margin: 8px auto;
+        align-items: center;
+    }
+
+    .past-button {
+        margin-bottom: 5px;
     }
 
     /* #song-search, #artist-search {
         margin: 0 auto;
     } */
- }
+}
 
 /* Larger than tablet screen */
 @media (min-width: 768px) 
@@ -177,11 +194,21 @@ and (max-width: 1000px)
         text-align: center;
         font-size: larger;
     }
+<<<<<<< HEAD
+    #past-searches-container {
+        width: 100%;
+        margin: 0 auto;
+}
+=======
+>>>>>>> main
 
 }
 
+<<<<<<< HEAD
+=======
 @media (min-width: 768px) {
     #past-searches-container {
         align-items: flex-end;
     }
+>>>>>>> main
 }
