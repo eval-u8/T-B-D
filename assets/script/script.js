@@ -1,3 +1,4 @@
+//Global variables
 var searchResultsEl = document.getElementById("search-results-container");
 var submitButtonEl = document.getElementById("submit-button");
 var returnButtonEl = document.getElementById("return-button");
@@ -7,12 +8,12 @@ var pastSearchIdList = JSON.parse(localStorage.getItem("songIdList")) || [];
 var pastSearchList = JSON.parse(localStorage.getItem("searchTerms")) || [];
 var player;
 
-var mockResponse = {"kind":"youtube#searchListResponse","etag":"g-kFa1lNH68H6Ttht2jmkgMJg3k","nextPageToken":"CAEQAA","regionCode":"US","pageInfo":{"totalResults":1000000,"resultsPerPage":1},"items":[{"kind":"youtube#searchResult","etag":"enGOs3s6Lm3RSB55akzDLfTp1Jc","id":{"kind":"youtube#video","videoId":"fJ9rUzIMcZQ"},"snippet":{"publishedAt":"2008-08-01T11:06:40Z","channelId":"UCiMhD4jzUqG-IgPzUmmytRQ","title":"Queen – Bohemian Rhapsody (Official Video Remastered)","description":"REMASTERED IN HD TO CELEBRATE ONE BILLION VIEWS! Taken from A Night At The Opera, 1975. Click here to buy the DVD with this video at the Official ...","thumbnails":{"default":{"url":"https://i.ytimg.com/vi/fJ9rUzIMcZQ/default.jpg","width":120,"height":90},"medium":{"url":"https://i.ytimg.com/vi/fJ9rUzIMcZQ/mqdefault.jpg","width":320,"height":180},"high":{"url":"https://i.ytimg.com/vi/fJ9rUzIMcZQ/hqdefault.jpg","width":480,"height":360}},"channelTitle":"Queen Official","liveBroadcastContent":"none","publishTime":"2008-08-01T11:06:40Z"}}]}
+//var mockResponse = {"kind":"youtube#searchListResponse","etag":"g-kFa1lNH68H6Ttht2jmkgMJg3k","nextPageToken":"CAEQAA","regionCode":"US","pageInfo":{"totalResults":1000000,"resultsPerPage":1},"items":[{"kind":"youtube#searchResult","etag":"enGOs3s6Lm3RSB55akzDLfTp1Jc","id":{"kind":"youtube#video","videoId":"fJ9rUzIMcZQ"},"snippet":{"publishedAt":"2008-08-01T11:06:40Z","channelId":"UCiMhD4jzUqG-IgPzUmmytRQ","title":"Queen – Bohemian Rhapsody (Official Video Remastered)","description":"REMASTERED IN HD TO CELEBRATE ONE BILLION VIEWS! Taken from A Night At The Opera, 1975. Click here to buy the DVD with this video at the Official ...","thumbnails":{"default":{"url":"https://i.ytimg.com/vi/fJ9rUzIMcZQ/default.jpg","width":120,"height":90},"medium":{"url":"https://i.ytimg.com/vi/fJ9rUzIMcZQ/mqdefault.jpg","width":320,"height":180},"high":{"url":"https://i.ytimg.com/vi/fJ9rUzIMcZQ/hqdefault.jpg","width":480,"height":360}},"channelTitle":"Queen Official","liveBroadcastContent":"none","publishTime":"2008-08-01T11:06:40Z"}}]}
 
 
 var youtubeApiKey = "AIzaSyAo-97J_Rejjd9W6MvlsKiCW9hptlDpPQE";
 
-// Function to get search term from input
+// Function to get search term from input fields
 $("#submit-button").on("click", function() {
     var artistSearch = document.querySelector("#artistField").value;
     var songSearch = document.querySelector("#songField").value;
@@ -21,19 +22,7 @@ $("#submit-button").on("click", function() {
 
     localStorage.setItem("searchTermPass", artistSearch + "-" + songSearch);
 
-
     showResultsEl.innerHTML = "";
-    
-    //var resultsContainerEl = document.querySelector("#results-container");
-    //var clearThese = $("#search-results");
-    //console.log(clearThese);
-    
-   // console.log($(resultsContainerEl));
-    /*if($(resultsContainerEl).hasChildren()) {
-        console.log("this works");
-        console.log($("#search-results"));
-        //resultsContainerEl.removeChild($(resultsContainerEl)[0].children[0].children[0]);
-    }*/
     
     fetch(youtubeList)
     .then(function(response) {
@@ -51,7 +40,6 @@ $("#submit-button").on("click", function() {
             pastSearches(localStorage.getItem("searchTermPass"), idToPass);
 
             loadData(response);
-            
         }
     })
     .catch(function(error) {
@@ -61,8 +49,8 @@ $("#submit-button").on("click", function() {
     displaySearchResults();
 })
 
+//Loads results data to the search results container
 function loadData(data) {
-    console.log("we are here");
     var resultsButtonEl = document.getElementById("search-results");
 
     var idToPass = data.items[0].id.videoId;
@@ -86,13 +74,10 @@ function loadData(data) {
         //Variable to display first 50 char of channel title. Put under video?
         //var channelTitle = (response.items[0].snippet.channelTitle).substring(0,50)
     }
-
 }
 
-//function to save search term to local storage
+//Function to save unique search terms to local storage and create buttons for past searches
 function pastSearches(searchTerm, songId){
-    console.log(songId);
-
     var pastSearchEl = document.getElementById("past-searches-container");
     var pastSearchesArray = JSON.parse(localStorage.getItem("searchTerm")) || [];
     var artistSearch = document.querySelector("#artistField").value;
@@ -118,18 +103,15 @@ function pastSearches(searchTerm, songId){
     }
 }
 
-//function to click on past search and display results
+//Function to click on past search and display results
 $("#past-searches-container").on("click", "button", function() {
     var pastSearchesArray = JSON.parse(localStorage.getItem("searchTerm")) || [];
-    console.log($(this));
     var idArray = $(this).attr("id").split("-");
     var artistName = idArray[0];
     var titleName = idArray[1];
     var songId = idArray[2];
-    console.log(songId);
     
     for (var i=0; i < pastSearchesArray.length; i++) {
-
         if (artistName === pastSearchesArray[i].artist && titleName === pastSearchesArray[i].title) {
             document.querySelector("#artistField").value = artistName;
             document.querySelector("#songField").value =  titleName;
@@ -138,12 +120,9 @@ $("#past-searches-container").on("click", "button", function() {
     }
     
     localStorage.setItem("songId", songId);
-    // var pastSearch = $(this).attr("id");
-    // document.querySelector("#artistField").value = pastSearch;
-    // document.querySelector("#submit-button").click();
 });
 
-//function to click result button to see youtube video and lyrics
+//Function to click result button to see youtube video and lyrics
 $("#results-container").on("click", "button", function() {
     console.log($(this));
     var videoId = $(this).attr("id");
@@ -208,7 +187,7 @@ function stopVideo() {
     player.stopVideo();
 }
 
-//Functions for CSS modifications
+//Functions for CSS modifications to show/hide certain divs
 function returnToSearch() {
     searchResultsEl.style.visibility = "hidden";
     showResultsEl.style.visibility = "hidden";
@@ -232,8 +211,6 @@ function getLyrics(){
         return response.json();
     })
     .then(function(response) {
-        //console.log(response);
-
         var responseData = response.message.body;
         
         //Retrieves track ID and matches another fetch request to get the lyrics
@@ -270,7 +247,6 @@ function getLyrics(){
             lyricsResultEl.appendChild(lyricParagraph);
         }
     })
-
     //Catch function will exectute if there are no lyrics on MusixMatch for the search term or if an error occurred
     .catch(function(error) {
         console.log(error);
@@ -291,8 +267,6 @@ function loadLocalStorage(){
     var pastSearchEl = document.querySelector("#past-searches-container");
 
     var storedSearches = JSON.parse(localStorage.getItem("searchTerm")) || [];
-
-    //console.log(storedSearches);
     
     for (var j=0; j < storedSearches.length; j++) {
         var pastSearchLi = document.createElement("button");
@@ -303,26 +277,17 @@ function loadLocalStorage(){
     }
 }
 
-//Do not use function unless necessary
-
-submitButtonEl.addEventListener("click", displaySearchResults);
-
-loadLocalStorage();
-
+//Reloads page
 function reloadPage() {
     document.location.reload();
 }
 
+//Clears text in the lyrics result div
 function clearLyrics(){
     lyricsResultEl.innerHTML = "";
 }
 
-/*function removeAllChildNodes(container) {
-    console.log(container);
-    console.log(firstChild);
-    while(container.firstChild) {
-        container.removeChild(container.firstChild);
-    }
-}*/
-
+//Event listeners and functions to load website
+submitButtonEl.addEventListener("click", displaySearchResults);
 returnButtonEl.addEventListener("click", reloadPage);
+loadLocalStorage();
