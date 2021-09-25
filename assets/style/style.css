@@ -157,9 +157,9 @@ button {
 
 /* Larger than tablet screen */
 @media (min-width: 768px) {
-    .container{
+    /* .container{
         /* background-color: red; */
-    }
+    } */
 
     .column.column-67 {
         flex: none;
