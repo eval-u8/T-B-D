@@ -146,8 +146,10 @@ button {
         text-align: center;
     }
 
-    #search-container form, #past-searches-container button{
-        margin: 0 auto;
+    #search-container form, #search-results button, #past-searches-container button {
+        width: auto;
+        padding: 0.5em 0.5em;
+        margin: 8px auto;
     }
 
     /* #song-search, #artist-search {
