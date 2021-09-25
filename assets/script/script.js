@@ -10,7 +10,7 @@ var player;
 
 //var mockResponse = {"kind":"youtube#searchListResponse","etag":"g-kFa1lNH68H6Ttht2jmkgMJg3k","nextPageToken":"CAEQAA","regionCode":"US","pageInfo":{"totalResults":1000000,"resultsPerPage":1},"items":[{"kind":"youtube#searchResult","etag":"enGOs3s6Lm3RSB55akzDLfTp1Jc","id":{"kind":"youtube#video","videoId":"fJ9rUzIMcZQ"},"snippet":{"publishedAt":"2008-08-01T11:06:40Z","channelId":"UCiMhD4jzUqG-IgPzUmmytRQ","title":"Queen – Bohemian Rhapsody (Official Video Remastered)","description":"REMASTERED IN HD TO CELEBRATE ONE BILLION VIEWS! Taken from A Night At The Opera, 1975. Click here to buy the DVD with this video at the Official ...","thumbnails":{"default":{"url":"https://i.ytimg.com/vi/fJ9rUzIMcZQ/default.jpg","width":120,"height":90},"medium":{"url":"https://i.ytimg.com/vi/fJ9rUzIMcZQ/mqdefault.jpg","width":320,"height":180},"high":{"url":"https://i.ytimg.com/vi/fJ9rUzIMcZQ/hqdefault.jpg","width":480,"height":360}},"channelTitle":"Queen Official","liveBroadcastContent":"none","publishTime":"2008-08-01T11:06:40Z"}}]}
 
-var youtubeApiKey = "AIzaSyAo-97J_Rejjd9W6MvlsKiCW9hptlDpPQE";
+var youtubeApiKey = config.ytApiErn;
 
 // Function to get search term from input fields
 $("#submit-button").on("click", function() {
@@ -29,9 +29,16 @@ $("#submit-button").on("click", function() {
     })
     .then(function(response) {
         if (artistSearch == "" || songSearch == "") {
-            //Place error message here
+            var emptyFldError = document.getElementById('searchResultsHthree');
+            emptyFldError.textContent = "Please enter both an artist and a song title!";
+            emptyFldError.style.color = 'red';
+            emptyFldError.style.fontWeight = 'bolder';
+            emptyFldError.style.textAlign = 'center';
+            emptyFldError.style.textDecoration = 'underline red';
+            // replace alert with modal or something else
+            // https://www.w3schools.com/howto/howto_css_modals.asp
 
-            alert("Please enter both an artist and a song title");
+            // alert("Please enter both an artist and a song title");
         }
         else {
             console.log(response);
