@@ -87,6 +87,10 @@ button {
     display: flex;
 }
 
+.lyrics-link {
+    margin-left: 20px;
+}
+
 #search-results {
     display: flex;
     flex-direction: column;

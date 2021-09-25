@@ -179,10 +179,10 @@ $("#results-container").on("click", "button", function onYouTubeIframeAPIReady()
 
 function onPlayerReady(event) {
     console.log(localStorage.getItem("videoIdToPlay"));
-
     var videoId = localStorage.getItem("videoIdToPlay");
-
     event.target.loadVideoById(videoId);
+
+    addLink(videoId);
 }
 
 function onPlayerStateChange(event) {
@@ -195,6 +195,22 @@ function onPlayerStateChange(event) {
 
 function stopVideo() {
     player.stopVideo();
+}
+
+function addLink(videoId) {
+    if(videoId) {
+        var videoLinkEl = document.getElementById("video-link");
+
+        videoLinkEl.innerHTML = "";
+    
+        var includeLink= document.createElement("a");
+        includeLink.href = "https://www.youtube.com/watch?v=" + videoId;
+        includeLink.target = "_blank";
+        includeLink.innerText = "Video not working? Try this link";
+        includeLink.classList.add("lyrics-link");
+    
+        videoLinkEl.appendChild(includeLink);
+    }
 }
 
 //Functions for CSS modifications to show/hide certain divs
