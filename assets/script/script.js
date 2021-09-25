@@ -10,7 +10,7 @@ var player;
 var mockResponse = {"kind":"youtube#searchListResponse","etag":"g-kFa1lNH68H6Ttht2jmkgMJg3k","nextPageToken":"CAEQAA","regionCode":"US","pageInfo":{"totalResults":1000000,"resultsPerPage":1},"items":[{"kind":"youtube#searchResult","etag":"enGOs3s6Lm3RSB55akzDLfTp1Jc","id":{"kind":"youtube#video","videoId":"fJ9rUzIMcZQ"},"snippet":{"publishedAt":"2008-08-01T11:06:40Z","channelId":"UCiMhD4jzUqG-IgPzUmmytRQ","title":"Queen – Bohemian Rhapsody (Official Video Remastered)","description":"REMASTERED IN HD TO CELEBRATE ONE BILLION VIEWS! Taken from A Night At The Opera, 1975. Click here to buy the DVD with this video at the Official ...","thumbnails":{"default":{"url":"https://i.ytimg.com/vi/fJ9rUzIMcZQ/default.jpg","width":120,"height":90},"medium":{"url":"https://i.ytimg.com/vi/fJ9rUzIMcZQ/mqdefault.jpg","width":320,"height":180},"high":{"url":"https://i.ytimg.com/vi/fJ9rUzIMcZQ/hqdefault.jpg","width":480,"height":360}},"channelTitle":"Queen Official","liveBroadcastContent":"none","publishTime":"2008-08-01T11:06:40Z"}}]}
 
 
-var youtubeApiKey = "AIzaSyAo-97J_Rejjd9W6MvlsKiCW9hptlDpPQE";
+var youtubeApiKey = "AIzaSyCTT5xzOh7A_ieEiUWbb9ktaAtNsjO6m7c";
 
 // Function to get search term from input
 $("#submit-button").on("click", function() {
@@ -22,16 +22,7 @@ $("#submit-button").on("click", function() {
     localStorage.setItem("searchTermPass", artistSearch + "-" + songSearch);
     
     
-    //var resultsContainerEl = document.querySelector("#results-container");
-    //var clearThese = $("#search-results");
-    //console.log(clearThese);
-    
-   // console.log($(resultsContainerEl));
-    /*if($(resultsContainerEl).hasChildren()) {
-        console.log("this works");
-        console.log($("#search-results"));
-        //resultsContainerEl.removeChild($(resultsContainerEl)[0].children[0].children[0]);
-    }*/
+    showResultsEl.innerHTML = "";
     
     fetch(youtubeList)
     .then(function(response) {
@@ -125,12 +116,10 @@ function pastSearches(searchTerm, songId){
 //function to click on past search and display results
 $("#past-searches-container").on("click", "button", function() {
     var pastSearchesArray = JSON.parse(localStorage.getItem("searchTerm")) || [];
-    console.log($(this));
     var idArray = $(this).attr("id").split("-");
     var artistName = idArray[0];
     var titleName = idArray[1];
     var songId = idArray[2];
-    console.log(songId);
     
     for (var i=0; i < pastSearchesArray.length; i++) {
 
@@ -142,9 +131,7 @@ $("#past-searches-container").on("click", "button", function() {
     }
     
     localStorage.setItem("songId", songId);
-    // var pastSearch = $(this).attr("id");
-    // document.querySelector("#artistField").value = pastSearch;
-    // document.querySelector("#submit-button").click();
+
 });
 
 //function to click result button to see youtube video and lyrics
@@ -229,7 +216,7 @@ function getLyrics(){
     var songValue = document.querySelector("#songField").value;
 
     var apiKey = "https://api.musixmatch.com/ws/1.1/track.search?q_artist="+ artistValue + "&q_track=" + songValue + "&page_size=3&page=1&s_track_rating=desc&apikey=b821d7d8d4a306e5ec045464dcd5ed20";
-
+    lyricsResultEl.innerHTML = "";
 
     fetch(apiKey)
     .then(function(response) {
@@ -261,11 +248,6 @@ function getLyrics(){
         var lyrics = songIdResponse.message.body.lyrics.lyrics_body;
         var lyricParagraph = document.createElement("p");
         
-        // var lyricsDiv = document.querySelector("#lyrics-result")
-        
-        // lyricsDiv.innerHTML = ""
-
-
         //If copyright law allows any of the lyrics to be reprinted, there are printed here
         //Songs with copyright issues do not print any lyrics but an error message instead
         if(copyRightAllowed == "Unfortunately we're not authorized to show these lyrics.") {
