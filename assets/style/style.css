@@ -87,6 +87,10 @@ button {
     display: flex;
 }
 
+.lyrics-link {
+    margin-left: 20px;
+}
+
 #search-results {
     display: flex;
     flex-direction: column;
@@ -138,4 +142,46 @@ button {
     font-weight: bold;
     font-size: 20px;
     padding-left: 0;
+}
+
+/* Larger than mobile screen */
+@media (min-width: 20rem) and (max-width: 767px) { 
+    .container {
+        text-align: center;
+    }
+
+    #search-container form, #search-results button, #past-searches-container button {
+        width: auto;
+        padding: 0.5em 0.5em;
+        margin: 8px auto;
+    }
+
+    /* #song-search, #artist-search {
+        margin: 0 auto;
+    } */
+ }
+
+/* Larger than tablet screen */
+@media (min-width: 768px) 
+and (max-width: 1000px) 
+{
+     /* .container{
+        background-color: red;
+    } */
+
+    #vid-n-lyrics-container {
+        display: block;
+    }
+
+    #lyrics-result {
+        text-align: center;
+        font-size: larger;
+    }
+
+}
+
+@media (min-width: 768px) {
+    #past-searches-container {
+        align-items: flex-end;
+    }
 }

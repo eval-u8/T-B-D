@@ -21,9 +21,9 @@
                 <div id="site-name" class="column">
                     TunesBeDope
                 </div>
-                <div id="home-button" class="column column-50 column-offset-25">
+                <!-- <div id="home-button" class="column column-50 column-offset-25">
                     <a class="button" href="#">Home</a>
-                </div>
+                </div> -->
             </div>
         </div>
     </header>
@@ -52,15 +52,15 @@
             <input id="submit-button" class="button-primary" type="submit" value="search">
         </div>
 
-        <h3>Search Results:</h3>
+        <h3 id="searchResultsHthree">Search Results:</h3>
         <div id="results-container" class="row">
             
             <!--search terms and create results divs-->
-            <div id="search-results" class="column column-67">
+            <div id="search-results" class="column">
                 
 
             </div>
-            <div id="past-searches-container" class="column column-30">
+            <div id="past-searches-container" class="column">
                 <h3>Past Searches</h3>
                 <!-- past search terms -->
                 
@@ -72,8 +72,9 @@
     <div id="search-results-container" class="container">
         <div class="row">
             <button id="return-button">Back to Search</button>
+            <div id="video-link"></div>
         </div>
-        <div class="row">
+        <div id="vid-n-lyrics-container" class="row">
             <div id="player" class="column">
                 <!-- Video shows here -->
             </div>
@@ -84,6 +85,7 @@
     </div>
       
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script type='text/javascript' src='./assets/script/config.js'></script>
     <script src="./assets/script/script.js"></script>
     <script src="https://www.youtube.com/iframe_api"></script>
     <script type="text/javascript" src="https://tracking.musixmatch.com/t1.0/AMa6hJCIEzn1v8RuOP"></script>
