@@ -138,10 +138,12 @@ $("#results-container").on("click", "button", function() {
     var titleEl = document.createElement("h4");
     titleDescriptEl.innerHTML = "";
     titleEl.innerText = videoInfo[videoId].title
+    titleEl.classList.add("row");
     titleDescriptEl.appendChild(titleEl);
 
     var descriptEl = document.createElement("p");
     descriptEl.innerText = videoInfo[videoId].descript
+    descriptEl.classList.add("row");
     titleDescriptEl.appendChild(descriptEl);
 
 })
