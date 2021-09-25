@@ -11,10 +11,12 @@ var pastSearchIdList = JSON.parse(localStorage.getItem("songIdList")) || [];
 var pastSearchList = JSON.parse(localStorage.getItem("searchTerms")) || [];
 var player;
 var searchResultsHeadClone = $("#searchResultsHthree").clone();
-
+var videoTitle = "";
+var videoDescript = "";
+var videoInfo = {};
 //var mockResponse = {"kind":"youtube#searchListResponse","etag":"g-kFa1lNH68H6Ttht2jmkgMJg3k","nextPageToken":"CAEQAA","regionCode":"US","pageInfo":{"totalResults":1000000,"resultsPerPage":1},"items":[{"kind":"youtube#searchResult","etag":"enGOs3s6Lm3RSB55akzDLfTp1Jc","id":{"kind":"youtube#video","videoId":"fJ9rUzIMcZQ"},"snippet":{"publishedAt":"2008-08-01T11:06:40Z","channelId":"UCiMhD4jzUqG-IgPzUmmytRQ","title":"Queen – Bohemian Rhapsody (Official Video Remastered)","description":"REMASTERED IN HD TO CELEBRATE ONE BILLION VIEWS! Taken from A Night At The Opera, 1975. Click here to buy the DVD with this video at the Official ...","thumbnails":{"default":{"url":"https://i.ytimg.com/vi/fJ9rUzIMcZQ/default.jpg","width":120,"height":90},"medium":{"url":"https://i.ytimg.com/vi/fJ9rUzIMcZQ/mqdefault.jpg","width":320,"height":180},"high":{"url":"https://i.ytimg.com/vi/fJ9rUzIMcZQ/hqdefault.jpg","width":480,"height":360}},"channelTitle":"Queen Official","liveBroadcastContent":"none","publishTime":"2008-08-01T11:06:40Z"}}]}
 
-var youtubeApiKey = config.ytApiErn;
+var youtubeApiKey = config.ytApiAlly;
 
 // Function to get search term from input fields
 $("#submit-button").on("click", function() {
@@ -38,10 +40,6 @@ $("#submit-button").on("click", function() {
             emptyFldError.style.fontWeight = 'bolder';
             emptyFldError.style.textAlign = 'center';
             emptyFldError.style.textDecoration = 'underline red';
-            // replace alert with modal or something else
-            // https://www.w3schools.com/howto/howto_css_modals.asp
-
-            // alert("Please enter both an artist and a song title");
         }
         else {
             $("#searchResultsHthree").replaceWith(searchResultsHeadClone.clone());
@@ -63,8 +61,8 @@ $("#submit-button").on("click", function() {
 //Loads results data to the search results container
 function loadData(data) {
     var resultsButtonEl = document.getElementById("search-results");
-
     var idToPass = data.items[0].id.videoId;
+
     pastSearches(localStorage.getItem("searchTermPass"), idToPass);
 
     var videos = data.items;
@@ -72,18 +70,16 @@ function loadData(data) {
     for (var i=0; i < videos.length; i++) {
         var title = videos[i].snippet.title;
         var videoId = videos[i].id.videoId;
+        var videoDescript = videos[i].snippet.description;
+        var videoTitle = videos[i].snippet.title;
         var resultsButton = document.createElement("button");
         resultsButton.className = "resultsButton";
-        // add css class
-        // resultsButton.classList.add("");
         resultsButton.innerHTML = title;
         resultsButton.id = videoId;
+        videoInfo[videoId]= {};
+        videoInfo[videoId].title = videoTitle;
+        videoInfo[videoId].descript = videoDescript;
         resultsButtonEl.appendChild(resultsButton);
-        //Variable to display first 50 char of video description. Put under video?
-        //var videoDescription = (response.items[i].snippet.description).substring(0,50);
-
-        //Variable to display first 50 char of channel title. Put under video?
-        //var channelTitle = (response.items[0].snippet.channelTitle).substring(0,50)
     }
 }
 
@@ -137,6 +133,17 @@ $("#results-container").on("click", "button", function() {
     var videoId = $(this).attr("id");
     getLyrics();
     localStorage.setItem("songId", videoId);
+
+    var titleDescriptEl = document.querySelector("#title-description");
+    var titleEl = document.createElement("h4");
+    titleDescriptEl.innerHTML = "";
+    titleEl.innerText = videoInfo[videoId].title
+    titleDescriptEl.appendChild(titleEl);
+
+    var descriptEl = document.createElement("p");
+    descriptEl.innerText = videoInfo[videoId].descript
+    titleDescriptEl.appendChild(descriptEl);
+
 })
 
 
