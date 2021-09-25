@@ -53,6 +53,10 @@ $("#submit-button").on("click", function() {
     })
     .catch(function(error) {
         console.log(error);
+        var ytApiError = document.createElement("p");
+        ytApiError.classList.add("youtube-api-error");
+        ytApiError.innerText = "There was an error retrieving results for your request";
+        showResultsEl.appendChild(ytApiError);
     })
 
     displaySearchResults();
