@@ -1,3 +1,4 @@
+//Global variables
 var searchResultsEl = document.getElementById("search-results-container");
 var submitButtonEl = document.getElementById("submit-button");
 var returnButtonEl = document.getElementById("return-button");
@@ -7,12 +8,11 @@ var pastSearchIdList = JSON.parse(localStorage.getItem("songIdList")) || [];
 var pastSearchList = JSON.parse(localStorage.getItem("searchTerms")) || [];
 var player;
 
-var mockResponse = {"kind":"youtube#searchListResponse","etag":"g-kFa1lNH68H6Ttht2jmkgMJg3k","nextPageToken":"CAEQAA","regionCode":"US","pageInfo":{"totalResults":1000000,"resultsPerPage":1},"items":[{"kind":"youtube#searchResult","etag":"enGOs3s6Lm3RSB55akzDLfTp1Jc","id":{"kind":"youtube#video","videoId":"fJ9rUzIMcZQ"},"snippet":{"publishedAt":"2008-08-01T11:06:40Z","channelId":"UCiMhD4jzUqG-IgPzUmmytRQ","title":"Queen – Bohemian Rhapsody (Official Video Remastered)","description":"REMASTERED IN HD TO CELEBRATE ONE BILLION VIEWS! Taken from A Night At The Opera, 1975. Click here to buy the DVD with this video at the Official ...","thumbnails":{"default":{"url":"https://i.ytimg.com/vi/fJ9rUzIMcZQ/default.jpg","width":120,"height":90},"medium":{"url":"https://i.ytimg.com/vi/fJ9rUzIMcZQ/mqdefault.jpg","width":320,"height":180},"high":{"url":"https://i.ytimg.com/vi/fJ9rUzIMcZQ/hqdefault.jpg","width":480,"height":360}},"channelTitle":"Queen Official","liveBroadcastContent":"none","publishTime":"2008-08-01T11:06:40Z"}}]}
-
+//var mockResponse = {"kind":"youtube#searchListResponse","etag":"g-kFa1lNH68H6Ttht2jmkgMJg3k","nextPageToken":"CAEQAA","regionCode":"US","pageInfo":{"totalResults":1000000,"resultsPerPage":1},"items":[{"kind":"youtube#searchResult","etag":"enGOs3s6Lm3RSB55akzDLfTp1Jc","id":{"kind":"youtube#video","videoId":"fJ9rUzIMcZQ"},"snippet":{"publishedAt":"2008-08-01T11:06:40Z","channelId":"UCiMhD4jzUqG-IgPzUmmytRQ","title":"Queen – Bohemian Rhapsody (Official Video Remastered)","description":"REMASTERED IN HD TO CELEBRATE ONE BILLION VIEWS! Taken from A Night At The Opera, 1975. Click here to buy the DVD with this video at the Official ...","thumbnails":{"default":{"url":"https://i.ytimg.com/vi/fJ9rUzIMcZQ/default.jpg","width":120,"height":90},"medium":{"url":"https://i.ytimg.com/vi/fJ9rUzIMcZQ/mqdefault.jpg","width":320,"height":180},"high":{"url":"https://i.ytimg.com/vi/fJ9rUzIMcZQ/hqdefault.jpg","width":480,"height":360}},"channelTitle":"Queen Official","liveBroadcastContent":"none","publishTime":"2008-08-01T11:06:40Z"}}]}
 
 var youtubeApiKey = "AIzaSyAo-97J_Rejjd9W6MvlsKiCW9hptlDpPQE";
 
-// Function to get search term from input
+// Function to get search term from input fields
 $("#submit-button").on("click", function() {
     var artistSearch = document.querySelector("#artistField").value;
     var songSearch = document.querySelector("#songField").value;
@@ -20,18 +20,8 @@ $("#submit-button").on("click", function() {
     var youtubeList = "https://youtube.googleapis.com/youtube/v3/search?part=snippet&maxResults=1&type=video&q=" + searchTerm  + "&key=" + youtubeApiKey;
 
     localStorage.setItem("searchTermPass", artistSearch + "-" + songSearch);
-    
-    
-    //var resultsContainerEl = document.querySelector("#results-container");
-    //var clearThese = $("#search-results");
-    //console.log(clearThese);
-    
-   // console.log($(resultsContainerEl));
-    /*if($(resultsContainerEl).hasChildren()) {
-        console.log("this works");
-        console.log($("#search-results"));
-        //resultsContainerEl.removeChild($(resultsContainerEl)[0].children[0].children[0]);
-    }*/
+
+    showResultsEl.innerHTML = "";
     
     fetch(youtubeList)
     .then(function(response) {
@@ -48,14 +38,7 @@ $("#submit-button").on("click", function() {
             var idToPass = response.items[0].id.videoId;
             pastSearches(localStorage.getItem("searchTermPass"), idToPass);
 
-            if (artistSearch == "" || songSearch == "") {
-                // replace alert with modal
-                // https://www.w3schools.com/howto/howto_css_modals.asp
-        
-                alert("Please enter both an artist and a song title");
-            } else {
-                loadData(response);
-            }
+            loadData(response);
         }
     })
     .catch(function(error) {
@@ -65,8 +48,8 @@ $("#submit-button").on("click", function() {
     displaySearchResults();
 })
 
+//Loads results data to the search results container
 function loadData(data) {
-    console.log("we are here");
     var resultsButtonEl = document.getElementById("search-results");
 
     var idToPass = data.items[0].id.videoId;
@@ -90,13 +73,10 @@ function loadData(data) {
         //Variable to display first 50 char of channel title. Put under video?
         //var channelTitle = (response.items[0].snippet.channelTitle).substring(0,50)
     }
-
 }
 
-//function to save search term to local storage
+//Function to save unique search terms to local storage and create buttons for past searches
 function pastSearches(searchTerm, songId){
-    console.log(songId);
-
     var pastSearchEl = document.getElementById("past-searches-container");
     var pastSearchesArray = JSON.parse(localStorage.getItem("searchTerm")) || [];
     var artistSearch = document.querySelector("#artistField").value;
@@ -106,8 +86,6 @@ function pastSearches(searchTerm, songId){
         title: songSearch,
         id: songId
     };
-
-    console.log(searchObj);
 
     if(!(pastSearchesArray.some((e => e.artist === searchObj.artist) && (e => e.title === searchObj.title)))) {
         if((searchObj.artist !== "") && (searchObj.title !== "")) {
@@ -122,18 +100,15 @@ function pastSearches(searchTerm, songId){
     }
 }
 
-//function to click on past search and display results
+//Function to click on past search and display results
 $("#past-searches-container").on("click", "button", function() {
     var pastSearchesArray = JSON.parse(localStorage.getItem("searchTerm")) || [];
-    console.log($(this));
     var idArray = $(this).attr("id").split("-");
     var artistName = idArray[0];
     var titleName = idArray[1];
     var songId = idArray[2];
-    console.log(songId);
     
     for (var i=0; i < pastSearchesArray.length; i++) {
-
         if (artistName === pastSearchesArray[i].artist && titleName === pastSearchesArray[i].title) {
             document.querySelector("#artistField").value = artistName;
             document.querySelector("#songField").value =  titleName;
@@ -142,12 +117,9 @@ $("#past-searches-container").on("click", "button", function() {
     }
     
     localStorage.setItem("songId", songId);
-    // var pastSearch = $(this).attr("id");
-    // document.querySelector("#artistField").value = pastSearch;
-    // document.querySelector("#submit-button").click();
 });
 
-//function to click result button to see youtube video and lyrics
+//Function to click result button to see youtube video and lyrics
 $("#results-container").on("click", "button", function() {
     console.log($(this));
     var videoId = $(this).attr("id");
@@ -212,7 +184,7 @@ function stopVideo() {
     player.stopVideo();
 }
 
-//Functions for CSS modifications
+//Functions for CSS modifications to show/hide certain divs
 function returnToSearch() {
     searchResultsEl.style.visibility = "hidden";
     showResultsEl.style.visibility = "hidden";
@@ -230,40 +202,32 @@ function getLyrics(){
 
     var apiKey = "https://api.musixmatch.com/ws/1.1/track.search?q_artist="+ artistValue + "&q_track=" + songValue + "&page_size=3&page=1&s_track_rating=desc&apikey=b821d7d8d4a306e5ec045464dcd5ed20";
 
-
+    //Call to MusixMatch API based on user artist and song inputs
     fetch(apiKey)
     .then(function(response) {
         return response.json();
     })
     .then(function(response) {
-        //console.log(response);
+        var responseData = response.message.body;
+        
+        //Retrieves track ID and matches another fetch request to get the lyrics
+        var songId = "https://api.musixmatch.com/ws/1.1/track.lyrics.get?track_id="+ responseData.track_list[0].track.track_id + "&apikey=b821d7d8d4a306e5ec045464dcd5ed20";
 
-        var hasLyrics = response.message.body.track_list[0].track.has_lyrics;
-
-        var songId = "https://api.musixmatch.com/ws/1.1/track.lyrics.get?track_id="+ response.message.body.track_list[0].track.track_id + 
-                        "&apikey=b821d7d8d4a306e5ec045464dcd5ed20";
-
-        if(hasLyrics === 1) {
-            return fetch(songId);
-        } else {
-            var noLyricsParagraph = document.createElement("p");
-            noLyricsParagraph.innerText = "We cannot find your lyrics :(";
-            lyricsResultEl.appendChild(noLyricsParagraph);
-        }
+        return fetch(songId);
         
     })
     .then(function(songIdResponse) {
         return songIdResponse.json();
     })
     .then(function(songIdResponse) {
+
+        var songIdData = songIdResponse.message.body
         
-        var copyRightAllowed = songIdResponse.message.body.lyrics.lyrics_copyright;
-        var lyrics = songIdResponse.message.body.lyrics.lyrics_body;
+        var copyRightAllowed = songIdData.lyrics.lyrics_copyright;
+        var lyrics = songIdData.lyrics.lyrics_body;
         var lyricParagraph = document.createElement("p");
         
-        // var lyricsDiv = document.querySelector("#lyrics-result")
-        
-        // lyricsDiv.innerHTML = ""
+        clearLyrics();
 
 
         //If copyright law allows any of the lyrics to be reprinted, there are printed here
@@ -272,7 +236,6 @@ function getLyrics(){
             //Print error message here
             lyricParagraph.innerText = "Copyright law does not allow these lyrics to be printed";
             lyricsResultEl.appendChild(lyricParagraph);
-            console.log("Copyright law does not allow these lyrics to be printed :(");
         } else {
             //Print lyrics to page here
             console.log(lyrics);
@@ -280,13 +243,15 @@ function getLyrics(){
             lyricParagraph.innerText = lyrics;
             lyricsResultEl.appendChild(lyricParagraph);
         }
-
     })
+    //Catch function will exectute if there are no lyrics on MusixMatch for the search term or if an error occurred
     .catch(function(error) {
         console.log(error);
-        var errorParagraph = document.createElement("p");
-        errorParagraph.innerText = "We cannot find your lyrics :(";
-        lyricsResultEl.appendChild(errorParagraph);
+        clearLyrics();
+        var noLyricsParagraph = document.createElement("p");
+        noLyricsParagraph.classList.add("lyrics-text");
+        noLyricsParagraph.innerText = "We cannot find your lyrics :(";
+        lyricsResultEl.appendChild(noLyricsParagraph);
     })
 }
 
@@ -296,11 +261,9 @@ function clearSearchValues() {
 }
 
 function loadLocalStorage(){
-    var pastSearchEl = document.querySelector("#past-searches-container")
+    var pastSearchEl = document.querySelector("#past-searches-container");
 
     var storedSearches = JSON.parse(localStorage.getItem("searchTerm")) || [];
-
-    console.log(storedSearches);
     
     for (var j=0; j < storedSearches.length; j++) {
         var pastSearchLi = document.createElement("button");
@@ -311,22 +274,17 @@ function loadLocalStorage(){
     }
 }
 
-//Do not use function unless necessary
-
-submitButtonEl.addEventListener("click", displaySearchResults);
-
-loadLocalStorage();
-
+//Reloads page
 function reloadPage() {
     document.location.reload();
 }
 
-/*function removeAllChildNodes(container) {
-    console.log(container);
-    console.log(firstChild);
-    while(container.firstChild) {
-        container.removeChild(container.firstChild);
-    }
-}*/
+//Clears text in the lyrics result div
+function clearLyrics(){
+    lyricsResultEl.innerHTML = "";
+}
 
+//Event listeners and functions to load website
+submitButtonEl.addEventListener("click", displaySearchResults);
 returnButtonEl.addEventListener("click", reloadPage);
+loadLocalStorage();
