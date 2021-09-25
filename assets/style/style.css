@@ -158,22 +158,26 @@ button {
  }
 
 /* Larger than tablet screen */
-@media (min-width: 768px) {
-    /* .container{
-        /* background-color: red; */
+@media (min-width: 768px) 
+and (max-width: 1000px) 
+{
+     /* .container{
+        background-color: red;
     } */
 
-    .column.column-67 {
-        flex: none;
-        max-width: none;
-        width: 100%;
+    #vid-n-lyrics-container {
+        display: block;
     }
+
+    #lyrics-result {
+        text-align: center;
+        font-size: larger;
+    }
+
+}
+
+@media (min-width: 768px) {
     #past-searches-container {
-        width: 100%;
-        margin: 0 auto;
- }
-
-/* Larger than desktop screen */
-@media (min-width: 120.0rem) { 
-
- }
+        align-items: flex-end;
+    }
+}
