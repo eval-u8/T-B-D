@@ -22,8 +22,6 @@ If the video doesn't load, you'll get a direct link to the video to watch it in 
 
 LYRICS!!! They'll be below the video (tablet/phone) or next to it (full size)
 
-_NEED TO FILL_
-
 ## Preview 👀
 
 [Live page](https://evalecillos.github.io/T-B-D/)
