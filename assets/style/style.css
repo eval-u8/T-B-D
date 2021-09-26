@@ -194,21 +194,11 @@ and (max-width: 1000px)
         text-align: center;
         font-size: larger;
     }
-<<<<<<< HEAD
-    #past-searches-container {
-        width: 100%;
-        margin: 0 auto;
-}
-=======
->>>>>>> main
 
 }
 
-<<<<<<< HEAD
-=======
 @media (min-width: 768px) {
     #past-searches-container {
         align-items: flex-end;
     }
->>>>>>> main
 }
