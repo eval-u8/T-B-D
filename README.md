@@ -8,8 +8,6 @@
     <img src="https://img.shields.io/badge/Musixmatch%20Lyrics%20API-violet" />
 </p>
 
-![Logo](./assets/images/TBD_logo_cropped.JPG)
-
 # TunesBeDope 🎼
 
 TunesBeDope is a small website that lets users search for their favorite artist/song and populates the top artists/songs related to their search as well as provide a music video matching their search query. On top of it, they'll get lyrics of said song beneath the video/song.
@@ -30,6 +28,18 @@ _NEED TO FILL_
 
 [Live page](https://evalecillos.github.io/T-B-D/)
 ![Preview](./assets/images/sitepreview.JPG)
+
+## Installation/Usage
+
+You can find the deployed site [here.](https://evalecillos.github.io/T-B-D/)
+
+In order for searches to run correctly, you may need to install CORS Unblock and turn it on for the site. You can download it for Chrome [here](https://chrome.google.com/webstore/detail/cors-unblock/lfhmikememgdcahcdlaciloancbhjino?hl=en).
+
+To install the entire project and access the code, you can clone the repository by using the command prompt
+
+$ git clone https://github.com/evalecillos/T-B-D.git
+
+Detailed instructions for cloning GitHub repositories can be found [here.](https://docs.github.com/en/github/creating-cloning-and-archiving-repositories/cloning-a-repository-from-github/cloning-a-repository)
 
 ## Contributors 🙋🏻‍♂️🙋🏻‍♀️🙋🏼‍♀️🙋🏼‍♂️🙋🏽‍♂️
 
