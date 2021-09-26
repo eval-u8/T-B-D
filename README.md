@@ -8,7 +8,7 @@
     <img src="https://img.shields.io/badge/Musixmatch%20Lyrics%20API-violet" />
 </p>
 
-![Logo](./assets/images/g-clef-logo.png)
+![Logo](./assets/images/TBD_logo_cropped.png)
 
 # TunesBeDope 🎼
 
@@ -29,7 +29,7 @@ _NEED TO FILL_
 ## Preview 👀
 
 [Live page](https://evalecillos.github.io/T-B-D/)
-![Preview](./assets/images/preview.png) _NEED TO FILL_
+![Preview](./assets/images/sitepreview.JPG)
 
 ## Contributors 🙋🏻‍♂️🙋🏻‍♀️🙋🏼‍♀️🙋🏼‍♂️🙋🏽‍♂️
 
