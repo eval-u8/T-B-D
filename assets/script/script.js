@@ -4,7 +4,6 @@ $(document).ready(function () {
 //Global variables
 var searchResultsEl = document.getElementById("search-results-container");
 var submitButtonEl = document.getElementById("submit-button");
-var returnButtonEl = document.getElementById("return-button");
 var lyricsResultEl = document.getElementById("lyrics-result");
 var showResultsEl = document.getElementById("search-results");
 var pastSearchIdList = JSON.parse(localStorage.getItem("songIdList")) || [];
@@ -225,11 +224,6 @@ function addLink(videoId) {
     }
 }
 
-//Functions for CSS modifications to show/hide certain divs
-function returnToSearch() {
-    searchResultsEl.style.visibility = "hidden";
-    showResultsEl.style.visibility = "hidden";
-}
 
 function displaySearchResults() {
     searchResultsEl.style.visibility = "visible";
@@ -315,10 +309,7 @@ function loadLocalStorage(){
     }
 }
 
-//Reloads page
-function reloadPage() {
-    document.location.reload();
-}
+
 
 //Clears text in the lyrics result div
 function clearLyrics(){
@@ -327,7 +318,6 @@ function clearLyrics(){
 
 //Event listeners and functions to load website
 submitButtonEl.addEventListener("click", displaySearchResults);
-returnButtonEl.addEventListener("click", reloadPage);
 loadLocalStorage();
 
 });
