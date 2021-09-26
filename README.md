@@ -19,8 +19,11 @@ To use, just type in enter your desired artist + song and click the search butto
 ## Quirks 🎯
 
 TunesBeDope will remember past searches!
+
 If the video doesn't load, you'll get a direct link to the video to watch it in YouTube directly.
+
 LYRICS!!! They'll be below the video (tablet/phone) or next to it (full size)
+
 _NEED TO FILL_
 
 ## Preview 👀
