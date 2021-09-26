@@ -10,9 +10,9 @@
 
 # TunesBeDope 🎼
 
-TunesBeDope is a small website that lets users search for their favorite artist/song and populates the top artists/songs related to their search as well as provide a music video matching their search query. On top of it, they'll get lyrics of said song beneath the video/song.
+TunesBeDope is a small website that lets users search for their favorite artist/song and populates top YouTube results related to their search as well as providing the lyrics to the searched song.
 
-To use, just type in enter your desired artist + song and click the search button, the page will load a list of options for you to click on, which will load the video below.
+To use, just type in your desired artist + song and click the search button. The page will load a list of options for you to click on, which will load the video and lyrics below.
 
 ## Quirks 🎯
 
