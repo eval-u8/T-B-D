@@ -101,8 +101,17 @@ button {
     background-color: #321325;
 }
 
+#logo-div {
+    display: flex;
+    height: 50px;
+}
+
 #logo {
-    background-color: #321325;
+    /* background-color: #321325; */
+    margin-top: -40px;
+    width: auto;
+    height: 100px;
+    display: block;
 }
 
 #site-name {
