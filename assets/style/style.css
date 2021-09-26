@@ -73,6 +73,7 @@ button {
 #past-searches-container {
     display: flex;
     flex-direction: column;
+    margin: 0px 0px 10px 0px;
 }
 
 .past-button {
@@ -135,13 +136,33 @@ button {
 
 #search-results-container {
     visibility: hidden;
+    padding: 10px 0px 0px 0px;
+    border-top: black solid 1px;
 }
 
+#titles {
+    border-top: black solid 1px;
+}
 #search-results {
     color: #321325;
     font-weight: bold;
     font-size: 20px;
     padding-left: 0;
+}
+
+#lyrics-result {
+    text-align: center;
+    font-size: larger;
+}
+
+#past-search-title {
+    text-align: right;
+    padding: 10px 0px;
+
+}
+
+#searchResultsHthree {
+    padding: 10px 0px;
 }
 
 /* Larger than mobile screen */
@@ -194,21 +215,11 @@ and (max-width: 1000px)
         text-align: center;
         font-size: larger;
     }
-<<<<<<< HEAD
-    #past-searches-container {
-        width: 100%;
-        margin: 0 auto;
-}
-=======
->>>>>>> main
 
 }
 
-<<<<<<< HEAD
-=======
 @media (min-width: 768px) {
     #past-searches-container {
         align-items: flex-end;
     }
->>>>>>> main
 }
