@@ -231,4 +231,13 @@ and (max-width: 1000px)
     #past-searches-container {
         align-items: flex-end;
     }
+    #site-name {
+        background-color: #321325;
+        margin-top: 18px;
+        font-weight: bolder;
+        font-family: Monaco;
+        font-size: 40px;
+        text-align: left;
+        align-self: center;
+    }
 }
