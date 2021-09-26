@@ -8,13 +8,11 @@
     <img src="https://img.shields.io/badge/Musixmatch%20Lyrics%20API-violet" />
 </p>
 
-![Logo](./assets/images/g-clef-logo.png)
-
 # TunesBeDope 🎼
 
-TunesBeDope is a small website that lets users search for their favorite artist/song and populates the top artists/songs related to their search as well as provide a music video matching their search query. On top of it, they'll get lyrics of said song beneath the video/song.
+TunesBeDope is a small website that lets users search for their favorite artist/song and populates top YouTube results related to their search as well as providing the lyrics to the searched song.
 
-To use, just type in enter your desired artist + song and click the search button, the page will load a list of options for you to click on, which will load the video below.
+To use, just type in your desired artist + song and click the search button. The page will load a list of options for you to click on, which will load the video and lyrics below.
 
 ## Quirks 🎯
 
@@ -24,12 +22,22 @@ If the video doesn't load, you'll get a direct link to the video to watch it in 
 
 LYRICS!!! They'll be below the video (tablet/phone) or next to it (full size)
 
-_NEED TO FILL_
-
 ## Preview 👀
 
 [Live page](https://evalecillos.github.io/T-B-D/)
-![Preview](./assets/images/preview.png) _NEED TO FILL_
+![Preview](./assets/images/sitepreview.JPG)
+
+## Installation/Usage
+
+You can find the deployed site [here.](https://evalecillos.github.io/T-B-D/)
+
+In order for searches to run correctly, you may need to install CORS Unblock and turn it on for the site. You can download it for Chrome [here](https://chrome.google.com/webstore/detail/cors-unblock/lfhmikememgdcahcdlaciloancbhjino?hl=en).
+
+To install the entire project and access the code, you can clone the repository by using the command prompt
+
+$ git clone https://github.com/evalecillos/T-B-D.git
+
+Detailed instructions for cloning GitHub repositories can be found [here.](https://docs.github.com/en/github/creating-cloning-and-archiving-repositories/cloning-a-repository-from-github/cloning-a-repository)
 
 ## Contributors 🙋🏻‍♂️🙋🏻‍♀️🙋🏼‍♀️🙋🏼‍♂️🙋🏽‍♂️
 
