@@ -8,7 +8,7 @@
     <img src="https://img.shields.io/badge/Musixmatch%20Lyrics%20API-violet" />
 </p>
 
-![Logo](./assets/images/TBD_logo_cropped.png)
+![Logo](./assets/images/TBD_logo_cropped.jpg)
 
 # TunesBeDope 🎼
 
