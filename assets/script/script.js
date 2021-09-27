@@ -15,14 +15,16 @@ var videoDescript = "";
 var videoInfo = {};
 //var mockResponse = {"kind":"youtube#searchListResponse","etag":"g-kFa1lNH68H6Ttht2jmkgMJg3k","nextPageToken":"CAEQAA","regionCode":"US","pageInfo":{"totalResults":1000000,"resultsPerPage":1},"items":[{"kind":"youtube#searchResult","etag":"enGOs3s6Lm3RSB55akzDLfTp1Jc","id":{"kind":"youtube#video","videoId":"fJ9rUzIMcZQ"},"snippet":{"publishedAt":"2008-08-01T11:06:40Z","channelId":"UCiMhD4jzUqG-IgPzUmmytRQ","title":"Queen – Bohemian Rhapsody (Official Video Remastered)","description":"REMASTERED IN HD TO CELEBRATE ONE BILLION VIEWS! Taken from A Night At The Opera, 1975. Click here to buy the DVD with this video at the Official ...","thumbnails":{"default":{"url":"https://i.ytimg.com/vi/fJ9rUzIMcZQ/default.jpg","width":120,"height":90},"medium":{"url":"https://i.ytimg.com/vi/fJ9rUzIMcZQ/mqdefault.jpg","width":320,"height":180},"high":{"url":"https://i.ytimg.com/vi/fJ9rUzIMcZQ/hqdefault.jpg","width":480,"height":360}},"channelTitle":"Queen Official","liveBroadcastContent":"none","publishTime":"2008-08-01T11:06:40Z"}}]}
 
-var youtubeApiKey = config.ytApiAlly;
+// use second key if first doesn't work
+var youtubeApiKey = "AIzaSyBEAdeJtkgZUKEVISq0X4s5yA6X7yd2894";
+// var youtubeApiKey = "AIzaSyDUbNHIIC-j1KrC8msbrELWzxpm8nMCH08";
 
 // Function to get search term from input fields
 $("#submit-button").on("click", function() {
     var artistSearch = document.querySelector("#artistField").value;
     var songSearch = document.querySelector("#songField").value;
     var searchTerm = artistSearch + " " + songSearch;
-    var youtubeList = "https://youtube.googleapis.com/youtube/v3/search?part=snippet&maxResults=1&type=video&q=" + searchTerm  + "&key=" + youtubeApiKey;
+    var youtubeList = "https://youtube.googleapis.com/youtube/v3/search?part=snippet&maxResults=5&type=video&q=" + searchTerm  + "&key=" + youtubeApiKey;
 
     localStorage.setItem("searchTermPass", artistSearch + "-" + songSearch);
     showResultsEl.innerHTML = "";
@@ -42,7 +44,6 @@ $("#submit-button").on("click", function() {
         }
         else {
             $("#searchResultsHthree").replaceWith(searchResultsHeadClone.clone());
-            console.log(response);
             var idToPass = response.items[0].id.videoId;
             pastSearches(localStorage.getItem("searchTermPass"), idToPass);
             
@@ -51,7 +52,6 @@ $("#submit-button").on("click", function() {
         }
     })
     .catch(function(error) {
-        console.log(error);
         var ytApiError = document.createElement("p");
         ytApiError.classList.add("youtube-api-error");
         ytApiError.innerText = "There was an error retrieving results for your request";
@@ -132,7 +132,6 @@ $("#past-searches-container").on("click", "button", function() {
 
 //Function to click result button to see youtube video and lyrics
 $("#results-container").on("click", "button", function() {
-    console.log($(this));
     var videoId = $(this).attr("id");
     getLyrics();
     localStorage.setItem("songId", videoId);
@@ -164,7 +163,6 @@ $("#results-container").on("click", "button", function onYouTubeIframeAPIReady()
         songId = $(this).attr("id");
     } else {
         var idPieces = $(this).attr("id")
-        console.log(idPieces);
         var idArray = idPieces.split("-");
         songId = idArray[2];
     }
@@ -189,7 +187,6 @@ $("#results-container").on("click", "button", function onYouTubeIframeAPIReady()
 });
 
 function onPlayerReady(event) {
-    console.log(localStorage.getItem("videoIdToPlay"));
     var videoId = localStorage.getItem("videoIdToPlay");
     event.target.loadVideoById(videoId);
 
@@ -273,7 +270,6 @@ function getLyrics(){
             lyricsResultEl.appendChild(lyricParagraph);
         } else {
             //Print lyrics to page here
-            console.log(lyrics);
             lyricParagraph.classList.add("lyrics-text");
             lyricParagraph.innerText = lyrics;
             lyricsResultEl.appendChild(lyricParagraph);
@@ -281,7 +277,6 @@ function getLyrics(){
     })
     //Catch function will exectute if there are no lyrics on MusixMatch for the search term or if an error occurred
     .catch(function(error) {
-        console.log(error);
         clearLyrics();
         var noLyricsParagraph = document.createElement("p");
         noLyricsParagraph.classList.add("lyrics-text");
